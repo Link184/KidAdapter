@@ -39,4 +39,11 @@ open class MultiTypeAdapter(
         UpdateConfiguration().apply(block).doUpdate(multiAdapterDsl)
         this += multiAdapterDsl.getAllItems()
     }
+
+    fun <T> getItemsByType(tag: String? = null): MutableList<T> {
+        if (tag != null) {
+            return multiAdapterDsl.getViewTypeByTag(tag).configuration.internalItems as MutableList<T>
+        }
+        return multiAdapterDsl.getItemsByType<Any>() as MutableList<T>
+    }
 }

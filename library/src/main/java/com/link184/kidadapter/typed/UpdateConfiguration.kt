@@ -1,10 +1,15 @@
 package com.link184.kidadapter.typed
 
 class UpdateConfiguration {
+    val insertionQueue = mutableListOf<Pair<Int, UpdateItem<*>>>()
     val insertTopQueue = mutableListOf<UpdateItem<*>>()
     val insertBottomQueue = mutableListOf<UpdateItem<*>>()
     val replaceQueue = mutableListOf<UpdateItem<*>>()
     val removeQueue = mutableListOf<RemoveItem<*>>()
+
+    inline fun <reified T> insert(index: Int, items: MutableList<T>, tag: String? = null) {
+        insertionQueue.add(index to UpdateItem(T::class.java, tag, items))
+    }
 
     inline fun <reified T> insertTop(item: T, tag: String? = null) {
         insertTopQueue.add(UpdateItem(T::class.java, tag, item))
@@ -35,6 +40,7 @@ class UpdateConfiguration {
     }
 
     internal fun doUpdate(multiAdapterDsl: MultiAdapterDsl) {
+        insertionQueue.forEach { insert(it.first, it.second, multiAdapterDsl) }
         insertTopQueue.forEach { insertTop(it, multiAdapterDsl) }
         insertBottomQueue.forEach { insertBottom(it, multiAdapterDsl) }
         replaceQueue.forEach { replaceItems(it, multiAdapterDsl) }
@@ -42,29 +48,34 @@ class UpdateConfiguration {
         multiAdapterDsl.invalidateItems()
     }
 
+    private fun insert(index: Int, item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
+        val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
+        viewType.configuration.internalItems.addAll(index, item.items as List<Any>)
+    }
+
     private fun insertTop(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
         val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
-        viewType.configuration.items
+        viewType.configuration.internalItems
                 .addAll(0, item.items as List<Any>)
     }
 
     private fun insertBottom(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
         val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
-        viewType.configuration.items
+        viewType.configuration.internalItems
                 .addAll(item.items as List<Any>)
     }
 
     private fun replaceItems(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
         val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
-        viewType.configuration.items = item.items as MutableList<Any>
+        viewType.configuration.internalItems = item.items as MutableList<Any>
     }
 
     private fun removeItems(item: RemoveItem<*>, multiAdapterDsl: MultiAdapterDsl) {
         val viewType = getAdapterViewTypeByType(item.toUpdateItem(), multiAdapterDsl)
         if (item.items.isNotEmpty()) {
-            viewType.configuration.items.removeAll(item.items)
+            viewType.configuration.internalItems.removeAll(item.items)
         } else {
-            viewType.configuration.items.clear()
+            viewType.configuration.internalItems.clear()
         }
     }
 

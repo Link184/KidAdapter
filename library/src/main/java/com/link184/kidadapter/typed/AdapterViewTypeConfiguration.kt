@@ -4,7 +4,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 
 class AdapterViewTypeConfiguration {
-    var items: MutableList<Any> = mutableListOf(Unit)
+    var internalItems: MutableList<Any> = mutableListOf(Unit)
     @LayoutRes var layoutResId: Int = -1
         private set
     internal var bindHolder: View.(Any) -> Unit = {}
@@ -12,17 +12,17 @@ class AdapterViewTypeConfiguration {
     var modelType: Class<*>? = null
 
     inline fun <reified T> withItems(items: MutableList<T>) {
-        this.items = items as MutableList<Any>
+        this.internalItems = items as MutableList<Any>
         this.modelType = T::class.java
     }
 
     inline fun <reified T> withItem(item: T) {
-        this.items = mutableListOf(item as Any)
+        this.internalItems = mutableListOf(item as Any)
         this.modelType = T::class.java
     }
 
     inline fun <reified T> withEmptyList() {
-        this.items = mutableListOf()
+        this.internalItems = mutableListOf()
         this.modelType = T::class.java
     }
 
