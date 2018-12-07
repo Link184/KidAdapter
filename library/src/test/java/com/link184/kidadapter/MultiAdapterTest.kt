@@ -25,13 +25,13 @@ class MultiAdapterTest {
     lateinit var activityController: ActivityController<RecyclerViewActivity>
 
     private val stringItems = mutableListOf("a", "b", "c", "d")
-    private val stringBindFunction: MultiAdapterDsl.(String) -> Unit = { println(it) }
+    private val stringBindFunction: MultiAdapterDsl.(String) -> Unit = { }
     private var stringBindFunctionSpy = spy(stringBindFunction)
     private val intItems = mutableListOf(1, 2, 3, 4, 5, 9)
-    private val intBindFunction: MultiAdapterDsl.(Int) -> Unit = { println(it) }
+    private val intBindFunction: MultiAdapterDsl.(Int) -> Unit = {  }
     private var intBindFunctionSpy = spy(intBindFunction)
     private val anyItems = mutableListOf(Any(), Any(), Any(), Any())
-    private val anyBindFunction: MultiAdapterDsl.(Any) -> Unit = { println(it) }
+    private val anyBindFunction: MultiAdapterDsl.(Any) -> Unit = {  }
     private var anyBindFunctionSpy = spy(anyBindFunction)
 
     @Before
@@ -126,5 +126,25 @@ class MultiAdapterTest {
         Mockito.verify(stringBindFunctionSpy, VerificationModeFactory.times(stringItems.size ))
             .invoke(anyNullableObject(), anyNullableObject())
 
+        resetSpys()
+        val insertList = mutableListOf("insert1", "insert2")
+        val insertIndex = 2
+        adapter.update {
+            insert(insertIndex, insertList)
+        }
+
+        activityController.stop().create().start().visible()
+
+        assertTrue { stringItems[insertIndex] == insertList.first() }
+
+        resetSpys()
+        adapter.update {
+            removeAll<String>()
+            removeAll<Int>()
+            removeAll<Any>()
+        }
+        activityController.stop().create().start().visible()
+
+        assertTrue { adapter.itemCount == 0 }
     }
 }

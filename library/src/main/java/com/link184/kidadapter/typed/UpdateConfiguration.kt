@@ -1,68 +1,54 @@
 package com.link184.kidadapter.typed
 
 class UpdateConfiguration {
-    val insertionQueue = mutableListOf<Pair<Int, UpdateItem<*>>>()
-    val insertTopQueue = mutableListOf<UpdateItem<*>>()
-    val insertBottomQueue = mutableListOf<UpdateItem<*>>()
-    val replaceQueue = mutableListOf<UpdateItem<*>>()
-    val removeQueue = mutableListOf<RemoveItem<*>>()
+    val updateQueue = mutableListOf<UpdateItem<*>>()
 
     inline fun <reified T> insert(index: Int, items: MutableList<T>, tag: String? = null) {
-        insertionQueue.add(index to UpdateItem(T::class.java, tag, items))
+        updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertMiddle(index)))
     }
 
     inline fun <reified T> insertTop(item: T, tag: String? = null) {
-        insertTopQueue.add(UpdateItem(T::class.java, tag, item))
+        updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertTop))
     }
 
     inline fun <reified T> insertTop(items: MutableList<T>, tag: String? = null) {
-        insertTopQueue.add(UpdateItem(T::class.java, tag, items))
+        updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertTop))
     }
 
     inline fun <reified T> insertBottom(item: T, tag: String? = null) {
-        insertBottomQueue.add(UpdateItem(T::class.java, tag, item))
+        updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertBottom))
     }
 
     inline fun <reified T> insertBottom(items: MutableList<T>, tag: String? = null) {
-        insertBottomQueue.add(UpdateItem(T::class.java, tag, items))
+        updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertBottom))
     }
 
-    inline fun <reified T> replaceItems(items: MutableList<T>, tag: String? = null) {
-        replaceQueue.add(UpdateItem(T::class.java, tag, items))
+    inline fun <reified T> replaceAllItems(items: MutableList<T>, tag: String? = null) {
+        updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.ReplaceAll))
     }
 
     inline fun <reified T> removeItems(items: MutableList<T>, tag: String? = null) {
-        removeQueue.add(RemoveItem(T::class.java, tag, items))
+        updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Remove))
     }
 
     inline fun <reified T> removeAll(tag: String? = null) {
-        removeQueue.add(RemoveItem(modelType = T::class.java, tag = tag))
+        updateQueue.add(UpdateItem(T::class.java, tag, mutableListOf(), UpdateType.Remove))
     }
 
     internal fun doUpdate(multiAdapterDsl: MultiAdapterDsl) {
-        insertionQueue.forEach { insert(it.first, it.second, multiAdapterDsl) }
-        insertTopQueue.forEach { insertTop(it, multiAdapterDsl) }
-        insertBottomQueue.forEach { insertBottom(it, multiAdapterDsl) }
-        replaceQueue.forEach { replaceItems(it, multiAdapterDsl) }
-        removeQueue.forEach { removeItems(it, multiAdapterDsl) }
+        updateQueue.forEach {
+            when (it.updateType) {
+                is UpdateType.Insert -> insert(it, multiAdapterDsl)
+                is UpdateType.ReplaceAll -> replaceItems(it, multiAdapterDsl)
+                is UpdateType.Remove -> removeItems(it, multiAdapterDsl)
+            }
+        }
         multiAdapterDsl.invalidateItems()
     }
 
-    private fun insert(index: Int, item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
+    private fun insert(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
         val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
-        viewType.configuration.internalItems.addAll(index, item.items as List<Any>)
-    }
-
-    private fun insertTop(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
-        viewType.configuration.internalItems
-                .addAll(0, item.items as List<Any>)
-    }
-
-    private fun insertBottom(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
-        viewType.configuration.internalItems
-                .addAll(item.items as List<Any>)
+        viewType.configuration.internalItems.addAll(item.updateType.resolveIndex(item.items), item.items as List<Any>)
     }
 
     private fun replaceItems(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
@@ -70,8 +56,8 @@ class UpdateConfiguration {
         viewType.configuration.internalItems = item.items as MutableList<Any>
     }
 
-    private fun removeItems(item: RemoveItem<*>, multiAdapterDsl: MultiAdapterDsl) {
-        val viewType = getAdapterViewTypeByType(item.toUpdateItem(), multiAdapterDsl)
+    private fun removeItems(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
+        val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
         if (item.items.isNotEmpty()) {
             viewType.configuration.internalItems.removeAll(item.items)
         } else {
