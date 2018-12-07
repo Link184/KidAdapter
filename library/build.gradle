@@ -1,9 +1,10 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply from: '../publish.gradle'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -12,6 +13,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: resolveRepositoyUrl()) {
+                authentication(userName: SONATYPE_NEXUS_USERNAME, password: SONATYPE_NEXUS_PASSWORD)
+                pom.groupId = publishing.GROUP_ID
+                pom.artifactId = publishing.LIBRARY_ARTIFACT_ID
+                pom.version = publishing.LIBRARY_VERSION_NAME_SNAPSHOT
+            }
+        }
     }
 }
 

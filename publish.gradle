@@ -1,0 +1,20 @@
+ext {
+    publishing = [
+            GROUP_ID                     : "com.link184",
+            LIBRARY_ARTIFACT_ID          : "kidAdaper",
+            LIBRARY_VERSION_NAME         : "0.0.0",
+            LIBRARY_VERSION_NAME_SNAPSHOT: "0.0.0-SNAPSHOT"
+    ]
+
+    ext.isReleaseBuild = {
+        return !VERSION_NAME.contains("SNAPSHOT")
+    }
+
+    ext.resolveRepositoyUrl = {
+        if (isReleaseBuild) {
+            return "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+        } else {
+            return "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+}

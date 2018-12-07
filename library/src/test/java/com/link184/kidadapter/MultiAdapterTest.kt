@@ -115,10 +115,13 @@ class MultiAdapterTest {
         Mockito.verify(intBindFunctionSpy, VerificationModeFactory.times(intItems.size))
             .invoke(anyNullableObject(), anyInt())
 
+        resetSpys()
         val removeItems = mutableListOf("x", "y")
         adapter.update {
             removeItems(removeItems)
         }
+
+        activityController.stop().create().start().visible()
 
         Mockito.verify(stringBindFunctionSpy, VerificationModeFactory.times(stringItems.size ))
             .invoke(anyNullableObject(), anyNullableObject())
