@@ -1,6 +1,6 @@
 package com.link184.kidadapter
 
-import com.link184.kidadapter.typed.MultiAdapterDsl
+import com.link184.kidadapter.typed.MultiAdapterConfiguration
 import com.link184.kidadapter.typed.MultiTypeAdapter
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -22,16 +22,16 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricTestRunner::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class MultiAdapterTest {
-    lateinit var activityController: ActivityController<RecyclerViewActivity>
+    private lateinit var activityController: ActivityController<RecyclerViewActivity>
 
     private val stringItems = mutableListOf("a", "b", "c", "d")
-    private val stringBindFunction: MultiAdapterDsl.(String) -> Unit = { }
+    private val stringBindFunction: MultiAdapterConfiguration.(String) -> Unit = { }
     private var stringBindFunctionSpy = spy(stringBindFunction)
     private val intItems = mutableListOf(1, 2, 3, 4, 5, 9)
-    private val intBindFunction: MultiAdapterDsl.(Int) -> Unit = {  }
+    private val intBindFunction: MultiAdapterConfiguration.(Int) -> Unit = {  }
     private var intBindFunctionSpy = spy(intBindFunction)
     private val anyItems = mutableListOf(Any(), Any(), Any(), Any())
-    private val anyBindFunction: MultiAdapterDsl.(Any) -> Unit = {  }
+    private val anyBindFunction: MultiAdapterConfiguration.(Any) -> Unit = {  }
     private var anyBindFunctionSpy = spy(anyBindFunction)
 
     @Before

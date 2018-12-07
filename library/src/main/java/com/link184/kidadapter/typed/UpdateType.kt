@@ -11,7 +11,7 @@ sealed class UpdateType {
 
     fun resolveIndex(currentList: MutableList<*>): Int {
         if (this is Insert.InsertBottom) {
-            return currentList.lastIndex
+            return currentList.size
         }
         if (this is Insert) {
             return index

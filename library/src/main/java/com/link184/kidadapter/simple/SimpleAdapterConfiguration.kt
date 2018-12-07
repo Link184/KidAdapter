@@ -5,28 +5,28 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
 class SimpleAdapterConfiguration<T> {
-    var items = mutableListOf<T>()
+    internal var items = mutableListOf<T>()
         private set
-    var layoutManager: RecyclerView.LayoutManager? = null
+    internal var layoutManager: RecyclerView.LayoutManager? = null
         private set
-    @LayoutRes var layoutResId: Int = -1
+    @LayoutRes internal var layoutResId: Int = -1
         private set
-    var bindHolder: View.(T) -> Unit = {}
+    internal var bindHolder: View.(T) -> Unit = {}
         private set
 
-    internal fun withItems(items: MutableList<T>) {
+    fun withItems(items: MutableList<T>) {
         this.items = items
     }
 
-    internal fun withItem(item: T) {
+    fun withItem(item: T) {
         this.items = mutableListOf(item)
     }
 
-    internal fun withLayoutManager(layoutManager: RecyclerView.LayoutManager) {
+    fun withLayoutManager(layoutManager: RecyclerView.LayoutManager) {
         this.layoutManager = layoutManager
     }
 
-    internal fun withLayoutResId(@LayoutRes layoutResId: Int) {
+    fun withLayoutResId(@LayoutRes layoutResId: Int) {
         this.layoutResId = layoutResId
     }
 

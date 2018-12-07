@@ -3,7 +3,7 @@ package com.link184.kidadapter.typed
 import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.simple.SimpleAdapterConfiguration
 
-class MultiAdapterDsl {
+class MultiAdapterConfiguration {
     internal val viewTypes = mutableListOf<AdapterViewType<Any>>()
     internal var layoutManager: RecyclerView.LayoutManager? = null
     private val tags = mutableMapOf<String, Int>()
@@ -21,8 +21,8 @@ class MultiAdapterDsl {
     /**
      * Useful to build [MultiTypeAdapter] from [SimpleAdapterConfiguration]
      */
-    fun fromSimpleConfiguration(block: SimpleAdapterConfiguration<*>.() -> Unit): MultiAdapterDsl {
-        return MultiAdapterDsl().apply {
+    fun fromSimpleConfiguration(block: SimpleAdapterConfiguration<*>.() -> Unit): MultiAdapterConfiguration {
+        return MultiAdapterConfiguration().apply {
             val adapterConfiguration = SimpleAdapterConfiguration<Any>().apply(block)
             withLayoutManager { adapterConfiguration.layoutManager }
             withViewType {

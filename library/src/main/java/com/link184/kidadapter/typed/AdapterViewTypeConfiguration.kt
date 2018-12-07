@@ -26,7 +26,7 @@ class AdapterViewTypeConfiguration {
         this.modelType = T::class.java
     }
 
-    internal fun withLayoutResId(@LayoutRes layoutResId: Int) {
+    fun withLayoutResId(@LayoutRes layoutResId: Int) {
         this.layoutResId = layoutResId
     }
     fun <T> bind(block: View.(T) -> Unit)  {

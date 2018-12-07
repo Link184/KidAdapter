@@ -8,15 +8,15 @@ import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
 
 open class MultiTypeAdapter(
-        private val multiAdapterDsl: MultiAdapterDsl
-) : BaseAdapter<Any, BaseViewHolder<Any>>(multiAdapterDsl.getAllItems()) {
+        private val multiAdapterConfiguration: MultiAdapterConfiguration
+) : BaseAdapter<Any, BaseViewHolder<Any>>(multiAdapterConfiguration.getAllItems()) {
 
     override fun getItemViewType(position: Int): Int {
-        return multiAdapterDsl.viewTypes.first { it.positionRange.contains(position) }.viewType
+        return multiAdapterConfiguration.viewTypes.first { it.positionRange.contains(position) }.viewType
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Any> {
-        val adapterViewType = multiAdapterDsl.viewTypes.first { it.viewType == viewType }
+        val adapterViewType = multiAdapterConfiguration.viewTypes.first { it.viewType == viewType }
         val view = LayoutInflater.from(parent.context).inflate(adapterViewType.configuration.layoutResId, parent, false)
         val viewHolder = object : BaseViewHolder<Any>(view) {
             override fun bindView(item: Any) {
@@ -36,14 +36,14 @@ open class MultiTypeAdapter(
     open fun onItemClick(itemView: View, position: Int) {}
 
     fun update(block: UpdateConfiguration.() -> Unit) {
-        UpdateConfiguration().apply(block).doUpdate(multiAdapterDsl)
-        this += multiAdapterDsl.getAllItems()
+        UpdateConfiguration().apply(block).doUpdate(multiAdapterConfiguration)
+        this += multiAdapterConfiguration.getAllItems()
     }
 
     fun <T> getItemsByType(tag: String? = null): MutableList<T> {
         if (tag != null) {
-            return multiAdapterDsl.getViewTypeByTag(tag).configuration.internalItems as MutableList<T>
+            return multiAdapterConfiguration.getViewTypeByTag(tag).configuration.internalItems as MutableList<T>
         }
-        return multiAdapterDsl.getItemsByType<Any>() as MutableList<T>
+        return multiAdapterConfiguration.getItemsByType<Any>() as MutableList<T>
     }
 }

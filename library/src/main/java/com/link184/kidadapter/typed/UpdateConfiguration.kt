@@ -35,29 +35,29 @@ class UpdateConfiguration {
         updateQueue.add(UpdateItem(T::class.java, tag, mutableListOf(), UpdateType.Remove))
     }
 
-    internal fun doUpdate(multiAdapterDsl: MultiAdapterDsl) {
+    internal fun doUpdate(multiAdapterConfiguration: MultiAdapterConfiguration) {
         updateQueue.forEach {
             when (it.updateType) {
-                is UpdateType.Insert -> insert(it, multiAdapterDsl)
-                is UpdateType.ReplaceAll -> replaceItems(it, multiAdapterDsl)
-                is UpdateType.Remove -> removeItems(it, multiAdapterDsl)
+                is UpdateType.Insert -> insert(it, multiAdapterConfiguration)
+                is UpdateType.ReplaceAll -> replaceItems(it, multiAdapterConfiguration)
+                is UpdateType.Remove -> removeItems(it, multiAdapterConfiguration)
             }
         }
-        multiAdapterDsl.invalidateItems()
+        multiAdapterConfiguration.invalidateItems()
     }
 
-    private fun insert(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
-        viewType.configuration.internalItems.addAll(item.updateType.resolveIndex(item.items), item.items as List<Any>)
+    private fun insert(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration) {
+        val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
+        viewType.configuration.internalItems.addAll(item.updateType.resolveIndex(viewType.configuration.internalItems), item.items as List<Any>)
     }
 
-    private fun replaceItems(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
+    private fun replaceItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration) {
+        val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
         viewType.configuration.internalItems = item.items as MutableList<Any>
     }
 
-    private fun removeItems(item: UpdateItem<*>, multiAdapterDsl: MultiAdapterDsl) {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterDsl)
+    private fun removeItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration) {
+        val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
         if (item.items.isNotEmpty()) {
             viewType.configuration.internalItems.removeAll(item.items)
         } else {
@@ -65,17 +65,17 @@ class UpdateConfiguration {
         }
     }
 
-    private fun <T> getAdapterViewTypeByType(item: UpdateItem<T>, multiAdapterDsl: MultiAdapterDsl): AdapterViewType<Any> {
+    private fun <T> getAdapterViewTypeByType(item: UpdateItem<T>, multiAdapterConfiguration: MultiAdapterConfiguration): AdapterViewType<Any> {
         item.tag?.let {
-            return multiAdapterDsl.getViewTypeByTag(it)
+            return multiAdapterConfiguration.getViewTypeByTag(it)
         }
 
-        val itemIsPresent = multiAdapterDsl.viewTypes.any { it.configuration.modelType == item.modelType }
+        val itemIsPresent = multiAdapterConfiguration.viewTypes.any { it.configuration.modelType == item.modelType }
         if (!itemIsPresent) {
             throw IllegalStateException("Sorry but ${item.modelType} isn't declared as a view type. " +
                     "You try to update non-existent view type, you can update only declared view types, " +
                     "please declare view type with withViewType() on adapter creation time method before update it")
         }
-        return multiAdapterDsl.viewTypes.first { it.configuration.modelType == item.modelType }
+        return multiAdapterConfiguration.viewTypes.first { it.configuration.modelType == item.modelType }
     }
 }
