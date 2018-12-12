@@ -56,5 +56,11 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
                 removeItems(mutableListOf(2, 4, 5))
             }
         }, 4_000)
+
+        recyclerView.postDelayed({
+            adapter.update {
+                insert(2, mutableListOf("New String 1", "New String 2"), FIRST_STRING_TAG)
+            }
+        }, 6_000)
     }
 }

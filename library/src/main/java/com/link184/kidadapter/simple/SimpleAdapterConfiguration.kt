@@ -3,9 +3,10 @@ package com.link184.kidadapter.simple
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import com.link184.kidadapter.base.KidList
 
 class SimpleAdapterConfiguration<T> {
-    internal var items = mutableListOf<T>()
+    internal var items = KidList<T>()
         private set
     internal var layoutManager: RecyclerView.LayoutManager? = null
         private set
@@ -15,11 +16,11 @@ class SimpleAdapterConfiguration<T> {
         private set
 
     fun withItems(items: MutableList<T>) {
-        this.items = items
+        this.items.reset(items)
     }
 
     fun withItem(item: T) {
-        this.items = mutableListOf(item)
+        this.items.reset(mutableListOf(item))
     }
 
     fun withLayoutManager(layoutManager: RecyclerView.LayoutManager) {

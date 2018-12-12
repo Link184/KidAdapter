@@ -9,7 +9,7 @@ class MultiAdapterConfiguration {
     private val tags = mutableMapOf<String, Int>()
 
     fun withViewType(tag: String? = null, block: AdapterViewTypeConfiguration.() -> Unit) {
-        val fromPosition = viewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.internalItems.size }
+        val fromPosition = viewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
         viewTypes.add(AdapterViewType(fromPosition, block))
         tag?.let { tags.put(it, viewTypes.lastIndex) }
     }
@@ -26,7 +26,7 @@ class MultiAdapterConfiguration {
             val adapterConfiguration = SimpleAdapterConfiguration<Any>().apply(block)
             withLayoutManager { adapterConfiguration.layoutManager }
             withViewType {
-                withItems(adapterConfiguration.items)
+                withItems(adapterConfiguration.items.newList)
                 bind<Any> {
                     adapterConfiguration.bindHolder(this, it)
                 }
@@ -36,7 +36,7 @@ class MultiAdapterConfiguration {
 
     internal fun getAllItems(): MutableList<Any> {
         val alignedItems = viewTypes
-                .map { it.configuration.internalItems.toMutableList() }
+                .map { it.configuration.getInternalItems().toMutableList() }
         if (alignedItems.isNotEmpty()) {
             return alignedItems
                     .reduce { acc, items -> acc.apply { addAll(items) } }
@@ -51,7 +51,7 @@ class MultiAdapterConfiguration {
      */
     internal inline fun <reified T> getItemsByType(): MutableList<T> {
         return viewTypes
-            .map { it.configuration.internalItems }
+            .map { it.configuration.getInternalItems() }
             .first {
                 it.any { it is T }
             } as MutableList<T>
@@ -69,9 +69,9 @@ class MultiAdapterConfiguration {
     internal fun invalidateItems() {
         val newViewTypes = mutableListOf<AdapterViewType<Any>>()
         viewTypes.forEach { adapterViewType ->
-            val fromPosition = newViewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.internalItems.size }
+            val fromPosition = newViewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
             newViewTypes.add(adapterViewType)
-            adapterViewType.positionRange = fromPosition until fromPosition + adapterViewType.configuration.internalItems.size
+            adapterViewType.positionRange = fromPosition until fromPosition + adapterViewType.configuration.getInternalItems().size
         }
     }
 }

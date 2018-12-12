@@ -1,10 +1,16 @@
 package com.link184.kidadapter.typed
 
+import com.link184.kidadapter.base.KidDiffUtilCallback
+
 class UpdateConfiguration {
     val updateQueue = mutableListOf<UpdateItem<*>>()
 
     inline fun <reified T> insert(index: Int, items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertMiddle(index)))
+    }
+
+    inline fun <reified T> insert(index: Int, item: T, tag: String? = null) {
+        updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertMiddle(index)))
     }
 
     inline fun <reified T> insertTop(item: T, tag: String? = null) {
@@ -35,34 +41,39 @@ class UpdateConfiguration {
         updateQueue.add(UpdateItem(T::class.java, tag, mutableListOf(), UpdateType.Remove))
     }
 
-    internal fun doUpdate(multiAdapterConfiguration: MultiAdapterConfiguration) {
+    internal fun doUpdate(multiAdapterConfiguration: MultiAdapterConfiguration): MutableList<KidDiffUtilCallback<*>?> {
+        val diffCallbacks = mutableListOf<KidDiffUtilCallback<*>?>()
         updateQueue.forEach {
             when (it.updateType) {
-                is UpdateType.Insert -> insert(it, multiAdapterConfiguration)
-                is UpdateType.ReplaceAll -> replaceItems(it, multiAdapterConfiguration)
-                is UpdateType.Remove -> removeItems(it, multiAdapterConfiguration)
+                is UpdateType.Insert -> insert(it, multiAdapterConfiguration).let(diffCallbacks::add)
+                is UpdateType.ReplaceAll -> replaceItems(it, multiAdapterConfiguration).let(diffCallbacks::add)
+                is UpdateType.Remove -> removeItems(it, multiAdapterConfiguration).let(diffCallbacks::add)
             }
         }
         multiAdapterConfiguration.invalidateItems()
+        return diffCallbacks
     }
 
-    private fun insert(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration) {
+    private fun insert(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration): KidDiffUtilCallback<Any>? {
         val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
-        viewType.configuration.internalItems.addAll(item.updateType.resolveIndex(viewType.configuration.internalItems), item.items as List<Any>)
+        viewType.configuration.addAllToInternalItems(item.updateType.resolveIndex(viewType.configuration.getInternalItems().newList), item.items as MutableList<Any>)
+        return viewType.configuration.diffCallback
     }
 
-    private fun replaceItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration) {
+    private fun replaceItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration): KidDiffUtilCallback<Any>? {
         val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
-        viewType.configuration.internalItems = item.items as MutableList<Any>
+        viewType.configuration.setInternalItems(item.items as MutableList<Any>)
+        return viewType.configuration.diffCallback
     }
 
-    private fun removeItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration) {
+    private fun removeItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration): KidDiffUtilCallback<Any>? {
         val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
         if (item.items.isNotEmpty()) {
-            viewType.configuration.internalItems.removeAll(item.items)
+            viewType.configuration.removeAllInternalItems(item.items as MutableList<Any>)
         } else {
-            viewType.configuration.internalItems.clear()
+            viewType.configuration.clearInternalItems()
         }
+        return viewType.configuration.diffCallback
     }
 
     private fun <T> getAdapterViewTypeByType(item: UpdateItem<T>, multiAdapterConfiguration: MultiAdapterConfiguration): AdapterViewType<Any> {

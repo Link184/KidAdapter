@@ -2,7 +2,8 @@ package com.link184.kidadapter.base
 
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<T, H : BaseViewHolder<T>>(private var itemList: MutableList<T>) : RecyclerView.Adapter<H>() {
+abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: KidList<T>) : RecyclerView.Adapter<H>() {
+    constructor(itemList: MutableList<T>) : this(KidList(itemList))
 
     override fun getItemCount() = itemList.size
 
@@ -11,33 +12,32 @@ abstract class BaseAdapter<T, H : BaseViewHolder<T>>(private var itemList: Mutab
     }
 
     operator fun plusAssign(itemList: MutableList<T>) {
-        this.itemList = itemList
-        notifyDataSetChanged()
+        this.itemList.reset(itemList)
     }
 
     operator fun plus(itemList: List<T>) {
         this.itemList.addAll(itemList)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(this.itemList.lastIndex, itemList.size)
     }
 
     operator fun plus(item: T) {
         itemList.add(item)
-        notifyDataSetChanged()
+        notifyItemInserted(itemList.lastIndex)
     }
 
     operator fun set(index: Int, item: T) {
         itemList.add(index, item)
-        notifyDataSetChanged()
+        notifyItemInserted(index)
     }
 
     fun insert(index: Int, itemList: List<T>) {
         this.itemList.addAll(index, itemList)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(index, itemList.size)
     }
 
     fun update(item: T, index: Int) {
-        itemList[index] = item
-        notifyDataSetChanged()
+        itemList.set(index, item)
+        notifyItemChanged(index)
     }
 
     operator fun get(index: Int): T {
@@ -46,12 +46,13 @@ abstract class BaseAdapter<T, H : BaseViewHolder<T>>(private var itemList: Mutab
 
     operator fun minus(index: Int) {
         itemList.removeAt(index)
-        notifyDataSetChanged()
+        notifyItemRemoved(index)
     }
 
     operator fun minus(item: T) {
+        val indexOfRemovedItem = itemList.indexOf(item)
         itemList.remove(item)
-        notifyDataSetChanged()
+        notifyItemRemoved(indexOfRemovedItem)
     }
 
     fun clear() {

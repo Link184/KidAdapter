@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="first_name_length">35</integer>
+    <integer name="last_name_length">35</integer>
+    <integer name="middle_name_length">35</integer>
+    <integer name="email_length">50</integer>
+    <integer name="phone_length">15</integer>
+    <integer name="code_length">5</integer>
+    <integer name="street_name_length">135</integer>
+    <integer name="country_name_length">35</integer>
+    <integer name="post_code_length">35</integer>
+    <integer name="city_length">35</integer>
+    <integer name="password_length">20</integer>
+    <integer name="document_number_length">50</integer>
+    <integer name="issuing_authority_length">100</integer>
+    <integer name="max_note_length">255</integer>
+    <integer name="report_note_length">1000</integer>
+    <integer name="amount_to_send_length">14</integer>
+    <integer name="verify_card_amount_length">6</integer>
+
+    <integer name="low_duration_animation">@android:integer/config_shortAnimTime</integer>
+    <integer name="medium_duration_animation">@android:integer/config_mediumAnimTime</integer>
+    <integer name="high_duration_animation">@android:integer/config_longAnimTime</integer>
+</resources>

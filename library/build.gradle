@@ -26,13 +26,11 @@ artifacts {
 }
 
 uploadArchives {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
     repositories {
         mavenDeployer {
             repository(url: resolveRepositoyUrl()) {
-                authentication(userName: properties.getProperty('SONATYPE_NEXUS_USERNAME'),
-                        password: properties.getProperty('SONATYPE_NEXUS_PASSWORD'))
+                authentication(userName: getUsername(),
+                        password: getPassword())
                 pom.groupId = GROUP
                 pom.artifactId = ARTIFACT_ID
 

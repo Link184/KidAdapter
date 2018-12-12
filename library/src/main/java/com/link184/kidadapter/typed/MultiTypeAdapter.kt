@@ -3,6 +3,7 @@ package com.link184.kidadapter.typed
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
@@ -36,13 +37,19 @@ open class MultiTypeAdapter(
     open fun onItemClick(itemView: View, position: Int) {}
 
     fun update(block: UpdateConfiguration.() -> Unit) {
-        UpdateConfiguration().apply(block).doUpdate(multiAdapterConfiguration)
+        val diffCallbacks = UpdateConfiguration().apply(block).doUpdate(multiAdapterConfiguration)
         this += multiAdapterConfiguration.getAllItems()
+        diffCallbacks
+            .filterNotNull()
+            .forEach {
+                DiffUtil.calculateDiff(it).dispatchUpdatesTo(this)
+            }
+        itemList.recycle()
     }
 
     fun <T> getItemsByType(tag: String? = null): MutableList<T> {
         if (tag != null) {
-            return multiAdapterConfiguration.getViewTypeByTag(tag).configuration.internalItems as MutableList<T>
+            return multiAdapterConfiguration.getViewTypeByTag(tag).configuration.getInternalItems() as MutableList<T>
         }
         return multiAdapterConfiguration.getItemsByType<Any>() as MutableList<T>
     }

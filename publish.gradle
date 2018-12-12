@@ -6,6 +6,28 @@ ext {
             return "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
+
+    ext.getUsername = {
+        def propertiesFile = project.rootProject.file('local.properties')
+        if (propertiesFile.exists()) {
+            Properties properties = new Properties()
+            properties.load(propertiesFile.newDataInputStream())
+            return properties.getProperty('SONATYPE_NEXUS_USERNAME')
+        } else {
+            return ""
+        }
+    }
+
+    ext.getPassword = {
+        def propertiesFile = project.rootProject.file('local.properties')
+        if (propertiesFile.exists()) {
+            Properties properties = new Properties()
+            properties.load(propertiesFile.newDataInputStream())
+            return properties.getProperty('SONATYPE_NEXUS_PASSWORD')
+        } else {
+            return ""
+        }
+    }
 }
 
 def isReleaseBuild() {
