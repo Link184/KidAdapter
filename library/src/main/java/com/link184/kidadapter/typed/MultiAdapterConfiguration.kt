@@ -51,7 +51,7 @@ class MultiAdapterConfiguration {
      */
     internal inline fun <reified T> getItemsByType(): MutableList<T> {
         return viewTypes
-            .map { it.configuration.getInternalItems() }
+            .map { it.configuration.getInternalItems().newList }
             .first {
                 it.any { it is T }
             } as MutableList<T>
@@ -71,7 +71,8 @@ class MultiAdapterConfiguration {
         viewTypes.forEach { adapterViewType ->
             val fromPosition = newViewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
             newViewTypes.add(adapterViewType)
-            adapterViewType.positionRange = fromPosition until fromPosition + adapterViewType.configuration.getInternalItems().size
+            val toPosition = fromPosition + adapterViewType.configuration.getInternalItems().size
+            adapterViewType.positionRange = fromPosition until if (toPosition < 1) 1 else toPosition
         }
     }
 }

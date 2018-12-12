@@ -65,7 +65,7 @@ class AdapterViewTypeConfiguration {
     }
 
     internal fun clearInternalItems() {
-        diffCallback = internalItems.clear()
+        internalItems.clear()
     }
 
     internal fun getInternalItems() = internalItems

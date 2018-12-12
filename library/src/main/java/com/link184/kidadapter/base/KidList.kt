@@ -28,7 +28,7 @@ class KidList<E>(internal var newList: MutableList<E> = mutableListOf()): List<E
     }
 
     private fun cacheOldItems() {
-        oldList = ArrayList(newList)
+        oldList = newList.toMutableList()
     }
 
     private fun getDiffUtils() = KidDiffUtilCallback(oldList as ArrayList, newList)

@@ -39,11 +39,16 @@ open class MultiTypeAdapter(
     fun update(block: UpdateConfiguration.() -> Unit) {
         val diffCallbacks = UpdateConfiguration().apply(block).doUpdate(multiAdapterConfiguration)
         this += multiAdapterConfiguration.getAllItems()
-        diffCallbacks
-            .filterNotNull()
-            .forEach {
-                DiffUtil.calculateDiff(it).dispatchUpdatesTo(this)
-            }
+        //todo: hack to avoid : java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid item position 1(offset:0).state:17
+        if (itemList.size > 0) {
+            diffCallbacks
+                .filterNotNull()
+                .forEach {
+                    DiffUtil.calculateDiff(it).dispatchUpdatesTo(this)
+                }
+        } else {
+            notifyDataSetChanged()
+        }
         itemList.recycle()
     }
 
