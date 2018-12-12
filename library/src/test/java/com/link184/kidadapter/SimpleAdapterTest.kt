@@ -40,6 +40,4 @@ class SimpleAdapterTest {
         activityController.create().start().visible()
         Mockito.verify(bindFunctionSpy, times(items.size)).invoke(anyNullableObject(), anyNullableObject())
     }
-
-
 }

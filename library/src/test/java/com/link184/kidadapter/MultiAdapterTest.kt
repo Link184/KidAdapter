@@ -18,7 +18,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricTestRunner::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class MultiAdapterTest {
@@ -28,10 +27,10 @@ class MultiAdapterTest {
     private val stringBindFunction: MultiAdapterConfiguration.(String) -> Unit = { }
     private var stringBindFunctionSpy = spy(stringBindFunction)
     private val intItems = mutableListOf(1, 2, 3, 4, 5, 9)
-    private val intBindFunction: MultiAdapterConfiguration.(Int) -> Unit = {  }
+    private val intBindFunction: MultiAdapterConfiguration.(Int) -> Unit = { }
     private var intBindFunctionSpy = spy(intBindFunction)
     private val anyItems = mutableListOf(Any(), Any(), Any(), Any())
-    private val anyBindFunction: MultiAdapterConfiguration.(Any) -> Unit = {  }
+    private val anyBindFunction: MultiAdapterConfiguration.(Any) -> Unit = { }
     private var anyBindFunctionSpy = spy(anyBindFunction)
 
     @Before
@@ -110,7 +109,7 @@ class MultiAdapterTest {
 
         activityController.create().start().visible()
 
-        Mockito.verify(stringBindFunctionSpy, VerificationModeFactory.times(stringItems.size ))
+        Mockito.verify(stringBindFunctionSpy, VerificationModeFactory.times(stringItems.size))
             .invoke(anyNullableObject(), anyNullableObject())
         Mockito.verify(intBindFunctionSpy, VerificationModeFactory.times(intItems.size))
             .invoke(anyNullableObject(), anyInt())
@@ -123,7 +122,7 @@ class MultiAdapterTest {
 
         activityController.stop().create().start().visible()
 
-        Mockito.verify(stringBindFunctionSpy, VerificationModeFactory.times(stringItems.size ))
+        Mockito.verify(stringBindFunctionSpy, VerificationModeFactory.times(stringItems.size))
             .invoke(anyNullableObject(), anyNullableObject())
 
         resetSpys()

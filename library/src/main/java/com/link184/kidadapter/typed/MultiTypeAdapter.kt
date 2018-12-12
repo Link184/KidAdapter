@@ -9,7 +9,7 @@ import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
 
 open class MultiTypeAdapter(
-        private val multiAdapterConfiguration: MultiAdapterConfiguration
+    private val multiAdapterConfiguration: MultiAdapterConfiguration
 ) : BaseAdapter<Any, BaseViewHolder<Any>>(multiAdapterConfiguration.getAllItems()) {
 
     override fun getItemViewType(position: Int): Int {
@@ -39,7 +39,7 @@ open class MultiTypeAdapter(
     fun update(block: UpdateConfiguration.() -> Unit) {
         val diffCallbacks = UpdateConfiguration().apply(block).doUpdate(multiAdapterConfiguration)
         this += multiAdapterConfiguration.getAllItems()
-        //todo: hack to avoid : java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid item position 1(offset:0).state:17
+        // todo: hack to avoid : java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid item position 1(offset:0).state:17
         if (itemList.size > 0) {
             diffCallbacks
                 .filterNotNull()

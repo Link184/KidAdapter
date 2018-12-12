@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerViewActivity: Activity() {
+class RecyclerViewActivity : Activity() {
     val recyclerView by lazy {
         RecyclerView(this).apply {
         }
