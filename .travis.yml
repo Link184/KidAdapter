@@ -1,5 +1,8 @@
 language: android
 
+jdk:
+  - oraclejdk8
+
 before_install:
   # Install SDK license so Android Gradle plugin can install deps.
   - mkdir "$ANDROID_HOME/licenses" || true
@@ -17,10 +20,19 @@ android:
 
 sudo: true
 
+after_success:
+  - .buildscript/deploy_snapshot.sh
+
 licenses:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
+
+env:
+  global:
+    - secure: "WKyi92KYbuX1gPtihUoxAC11uAik+x1k4PKb1y/nbWYMmf0RF/V41SUcTOVObAr9SwPxW3eu7ARJ7UslGxg5tuaITcBvGXZaR/a5pJT+BolkJ1XiCjsY8DgyYoc+iXte3vRvKDmF1Dcg/iMr+Ip/MTpxy9WrcUuVHqCulMlZjtLT5BdjExE0KppoCRe8sS1sZLg/Q1jU2gT5SxQbDKj4tmBXtm9Pn6K9q5LcW7niCElHUOQzWp5zSZC4l41+cJBLtnvYYbwp8HDyPlSTs99726+tO93NKka1lGEVZlrx4LI5i+et0XS3MC880LsnU3gazcllCXaJk0e++M3Yw+WeJZlEWJGl2hD2Rw/AhKdpaL5Pq3CxKMqBigyEUxPPOymP451bHm6qP+IW9JppXmQsLZO0lZ3CUCTb0elGpXdBh0QmWb0AOn7b4KM+9b42a33JpQ/c13+m9t7niRuYrloFColtk1NK4IfFQf+Aj282jB+XSQlE05FPRIbUvnc3RP+6dc1BlYXf92c1nMVHuE2O8fWttnJsi+qdYTKotszzK99bJIIVNWeVlcbKrhrSS5fY7zRJdA3voK1MUzy3V1bN+GEz6h0TXU6KLmjFR/tH6F3DPLOmfyT1UT5/M+fF6SFdh9XITslfs5TZuxy+YQ/mog5CQCWBtuncG3du6JcIyho="
+    - secure: "h1tNXfzg5+xH7z059KF9uv7tmx9/wY8vWG6LR6CVP3oOj+FCDAWAEcuj6HLjzQuI2fm9zW376zDxcUFJND1KPT58pW9PLa51V9xhFbJjge1vrAKtkeSV2KQIS5RPsPT/W7xe59pHSgMSLfI3/k4VoofY8lWH/ofW8ncaxrCXwkVCq4Eemmu4S6CATwocsAa6RypJvQqgbReKJojWDfDntyKD/h9laEvwo8D/InoFnpAXuBZzIzbdJQSJwyKFoJA726ghrI/TEcHvascirSmIE2lp1zl0ljG4V9VdfDrlMO1X8lrfMcUMdkjGi1HKpvKBOOApUvRfv+FAByUWWJo4PSve0cxY9BGL20h/eovEUCWFEXA3heEddDglj0OgrYsRzzBHorwBV2P6jWnhlPcAL9ofyTJyGQ+xvEFgMwWsc0jMkAzq+XsUu5WjKEWO7erxuoOtoNE/tN8U3SJZT/14CsP6wVSotYLUjW4H5pg8vTMknhACqQqKBrQsCxErzzLaLiLYFGyTTK77j9aCbKz5mfNulOLsfEsA4XyiMStKxGU8o7pCr6M6yPk4XBSng3eHx4SlaTwDT+YFXFpgg+/6rKRWsrH00/PQLVJjqjwVq3DSxyYHdnkPxxT8jBR5fUNewZkVjxMm5QFECXHqJNB7DgkXb5zXkEvspfNCrvhj1TI="
+
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

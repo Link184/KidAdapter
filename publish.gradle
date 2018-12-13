@@ -8,6 +8,10 @@ ext {
     }
 
     ext.getUsername = {
+        if (hasProperty('SONATYPE_NEXUS_USERNAME')) {
+            return SONATYPE_NEXUS_USERNAME
+        }
+
         def propertiesFile = project.rootProject.file('local.properties')
         if (propertiesFile.exists()) {
             Properties properties = new Properties()
@@ -19,6 +23,10 @@ ext {
     }
 
     ext.getPassword = {
+        if (hasProperty('SONATYPE_NEXUS_PASSWORD')) {
+            return SONATYPE_NEXUS_PASSWORD
+        }
+
         def propertiesFile = project.rootProject.file('local.properties')
         if (propertiesFile.exists()) {
             Properties properties = new Properties()
