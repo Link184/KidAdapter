@@ -1,6 +1,7 @@
 package com.link184.kidadapter.typed
 
 import com.link184.kidadapter.base.KidDiffUtilCallback
+import com.link184.kidadapter.exceptions.UndeclaredTypeModification
 
 class UpdateConfiguration {
     val updateQueue = mutableListOf<UpdateItem<*>>()
@@ -41,33 +42,33 @@ class UpdateConfiguration {
         updateQueue.add(UpdateItem(T::class.java, tag, mutableListOf(), UpdateType.Remove))
     }
 
-    internal fun doUpdate(multiAdapterConfiguration: MultiAdapterConfiguration): MutableList<KidDiffUtilCallback<*>?> {
+    internal fun doUpdate(typedKidAdapterConfiguration: TypedKidAdapterConfiguration): MutableList<KidDiffUtilCallback<*>?> {
         val diffCallbacks = mutableListOf<KidDiffUtilCallback<*>?>()
         updateQueue.forEach {
             when (it.updateType) {
-                is UpdateType.Insert -> insert(it, multiAdapterConfiguration).let(diffCallbacks::add)
-                is UpdateType.ReplaceAll -> replaceItems(it, multiAdapterConfiguration).let(diffCallbacks::add)
-                is UpdateType.Remove -> removeItems(it, multiAdapterConfiguration).let(diffCallbacks::add)
+                is UpdateType.Insert -> insert(it, typedKidAdapterConfiguration).let(diffCallbacks::add)
+                is UpdateType.ReplaceAll -> replaceItems(it, typedKidAdapterConfiguration).let(diffCallbacks::add)
+                is UpdateType.Remove -> removeItems(it, typedKidAdapterConfiguration).let(diffCallbacks::add)
             }
         }
-        multiAdapterConfiguration.invalidateItems()
+        typedKidAdapterConfiguration.invalidateItems()
         return diffCallbacks
     }
 
-    private fun insert(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration): KidDiffUtilCallback<Any>? {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
+    private fun insert(item: UpdateItem<*>, typedKidAdapterConfiguration: TypedKidAdapterConfiguration): KidDiffUtilCallback<Any>? {
+        val viewType = getAdapterViewTypeByType(item, typedKidAdapterConfiguration)
         viewType.configuration.addAllToInternalItems(item.updateType.resolveIndex(viewType.configuration.getInternalItems().newList), item.items as MutableList<Any>)
         return viewType.configuration.diffCallback
     }
 
-    private fun replaceItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration): KidDiffUtilCallback<Any>? {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
+    private fun replaceItems(item: UpdateItem<*>, typedKidAdapterConfiguration: TypedKidAdapterConfiguration): KidDiffUtilCallback<Any>? {
+        val viewType = getAdapterViewTypeByType(item, typedKidAdapterConfiguration)
         viewType.configuration.setInternalItems(item.items as MutableList<Any>)
         return viewType.configuration.diffCallback
     }
 
-    private fun removeItems(item: UpdateItem<*>, multiAdapterConfiguration: MultiAdapterConfiguration): KidDiffUtilCallback<Any>? {
-        val viewType = getAdapterViewTypeByType(item, multiAdapterConfiguration)
+    private fun removeItems(item: UpdateItem<*>, typedKidAdapterConfiguration: TypedKidAdapterConfiguration): KidDiffUtilCallback<Any>? {
+        val viewType = getAdapterViewTypeByType(item, typedKidAdapterConfiguration)
         if (item.items.isNotEmpty()) {
             viewType.configuration.removeAllInternalItems(item.items as MutableList<Any>)
         } else {
@@ -76,17 +77,15 @@ class UpdateConfiguration {
         return viewType.configuration.diffCallback
     }
 
-    private fun <T> getAdapterViewTypeByType(item: UpdateItem<T>, multiAdapterConfiguration: MultiAdapterConfiguration): AdapterViewType<Any> {
+    private fun <T> getAdapterViewTypeByType(item: UpdateItem<T>, typedKidAdapterConfiguration: TypedKidAdapterConfiguration): AdapterViewType<Any> {
         item.tag?.let {
-            return multiAdapterConfiguration.getViewTypeByTag(it)
+            return typedKidAdapterConfiguration.getViewTypeByTag(it)
         }
 
-        val itemIsPresent = multiAdapterConfiguration.viewTypes.any { it.configuration.modelType == item.modelType }
+        val itemIsPresent = typedKidAdapterConfiguration.viewTypes.any { it.configuration.modelType == item.modelType }
         if (!itemIsPresent) {
-            throw IllegalStateException("Sorry but ${item.modelType} isn't declared as a view type. " +
-                    "You try to update non-existent view type, you can update only declared view types, " +
-                    "please declare view type with withViewType() on adapter creation time method before update it")
+            throw UndeclaredTypeModification(item.modelType)
         }
-        return multiAdapterConfiguration.viewTypes.first { it.configuration.modelType == item.modelType }
+        return typedKidAdapterConfiguration.viewTypes.first { it.configuration.modelType == item.modelType }
     }
 }

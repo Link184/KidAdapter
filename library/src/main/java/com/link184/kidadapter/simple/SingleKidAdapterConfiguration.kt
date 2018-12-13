@@ -4,8 +4,9 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.base.KidList
+import com.link184.kidadapter.exceptions.UndefinedLayout
 
-class SimpleAdapterConfiguration<T> {
+class SingleKidAdapterConfiguration<T> {
     internal var items = KidList<T>()
         private set
     internal var layoutManager: RecyclerView.LayoutManager? = null
@@ -33,5 +34,12 @@ class SimpleAdapterConfiguration<T> {
 
     fun bind(block: View.(T) -> Unit) {
         this.bindHolder = block
+    }
+
+    internal fun validate() {
+        when {
+            layoutResId == -1 && items.isNotEmpty() -> throw UndefinedLayout("Adapter layout is not set, " +
+                    "please declare it with withLayoutResId() function")
+        }
     }
 }

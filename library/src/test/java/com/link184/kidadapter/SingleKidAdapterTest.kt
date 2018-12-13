@@ -1,6 +1,6 @@
 package com.link184.kidadapter
 
-import com.link184.kidadapter.simple.SimpleAdapterConfiguration
+import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
@@ -15,7 +15,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class SimpleAdapterTest {
+class SingleKidAdapterTest {
     lateinit var activityController: ActivityController<RecyclerViewActivity>
     @Before
     fun setUp() {
@@ -25,7 +25,7 @@ class SimpleAdapterTest {
     @Test
     fun t1_simpleAdapterPopulateTest() {
         val items = mutableListOf("a", "b", "c", "d")
-        val bindFunction: SimpleAdapterConfiguration<String>.(String) -> Unit = { println(it) }
+        val bindFunction: SingleKidAdapterConfiguration<String>.(String) -> Unit = { println(it) }
         val bindFunctionSpy = spy(bindFunction)
 
         activityController.get().recyclerView.setUp<String> {

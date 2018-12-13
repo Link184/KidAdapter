@@ -1,7 +1,7 @@
 package com.link184.kidadapter
 
-import com.link184.kidadapter.typed.MultiAdapterConfiguration
-import com.link184.kidadapter.typed.MultiTypeAdapter
+import com.link184.kidadapter.typed.TypedKidAdapter
+import com.link184.kidadapter.typed.TypedKidAdapterConfiguration
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
@@ -24,13 +24,13 @@ class MultiAdapterTest {
     private lateinit var activityController: ActivityController<RecyclerViewActivity>
 
     private val stringItems = mutableListOf("a", "b", "c", "d")
-    private val stringBindFunction: MultiAdapterConfiguration.(String) -> Unit = { }
+    private val stringBindFunction: TypedKidAdapterConfiguration.(String) -> Unit = { }
     private var stringBindFunctionSpy = spy(stringBindFunction)
     private val intItems = mutableListOf(1, 2, 3, 4, 5, 9)
-    private val intBindFunction: MultiAdapterConfiguration.(Int) -> Unit = { }
+    private val intBindFunction: TypedKidAdapterConfiguration.(Int) -> Unit = { }
     private var intBindFunctionSpy = spy(intBindFunction)
     private val anyItems = mutableListOf(Any(), Any(), Any(), Any())
-    private val anyBindFunction: MultiAdapterConfiguration.(Any) -> Unit = { }
+    private val anyBindFunction: TypedKidAdapterConfiguration.(Any) -> Unit = { }
     private var anyBindFunctionSpy = spy(anyBindFunction)
 
     @Before
@@ -45,7 +45,7 @@ class MultiAdapterTest {
         anyBindFunctionSpy = spy(anyBindFunction)
     }
 
-    private fun populateRecyclerView(): MultiTypeAdapter {
+    private fun populateRecyclerView(): TypedKidAdapter {
         return activityController.get().recyclerView.setUp {
             withViewType {
                 withItems(stringItems)

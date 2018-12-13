@@ -1,15 +1,19 @@
 package com.link184.kidadapter.typed
 
 import androidx.recyclerview.widget.RecyclerView
-import com.link184.kidadapter.simple.SimpleAdapterConfiguration
+import com.link184.kidadapter.exceptions.UndeclaredTag
+import com.link184.kidadapter.exceptions.UndefinedLayout
+import com.link184.kidadapter.exceptions.ZeroViewTypes
+import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 
-class MultiAdapterConfiguration {
+class TypedKidAdapterConfiguration {
     internal val viewTypes = mutableListOf<AdapterViewType<Any>>()
     internal var layoutManager: RecyclerView.LayoutManager? = null
     private val tags = mutableMapOf<String, Int>()
 
     fun withViewType(tag: String? = null, block: AdapterViewTypeConfiguration.() -> Unit) {
-        val fromPosition = viewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
+        val fromPosition =
+            viewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
         viewTypes.add(AdapterViewType(fromPosition, block))
         tag?.let { tags.put(it, viewTypes.lastIndex) }
     }
@@ -19,11 +23,11 @@ class MultiAdapterConfiguration {
     }
 
     /**
-     * Useful to build [MultiTypeAdapter] from [SimpleAdapterConfiguration]
+     * Useful to build [TypedKidAdapter] from [SingleKidAdapterConfiguration]
      */
-    fun fromSimpleConfiguration(block: SimpleAdapterConfiguration<*>.() -> Unit): MultiAdapterConfiguration {
-        return MultiAdapterConfiguration().apply {
-            val adapterConfiguration = SimpleAdapterConfiguration<Any>().apply(block)
+    fun fromSimpleConfiguration(block: SingleKidAdapterConfiguration<*>.() -> Unit): TypedKidAdapterConfiguration {
+        return TypedKidAdapterConfiguration().apply {
+            val adapterConfiguration = SingleKidAdapterConfiguration<Any>().apply(block)
             withLayoutManager { adapterConfiguration.layoutManager }
             withViewType {
                 withItems(adapterConfiguration.items.newList)
@@ -36,12 +40,12 @@ class MultiAdapterConfiguration {
 
     internal fun getAllItems(): MutableList<Any> {
         val alignedItems = viewTypes
-                .map { it.configuration.getInternalItems().toMutableList() }
+            .map { it.configuration.getInternalItems().toMutableList() }
         if (alignedItems.isNotEmpty()) {
             return alignedItems
-                    .reduce { acc, items -> acc.apply { addAll(items) } }
+                .reduce { acc, items -> acc.apply { addAll(items) } }
         }
-        throw IllegalStateException("View types are not defined, at least one must been defined. Use withViewType() method")
+        throw ZeroViewTypes()
     }
 
     /**
@@ -62,17 +66,25 @@ class MultiAdapterConfiguration {
      */
     internal fun getViewTypeByTag(tag: String): AdapterViewType<Any> {
         tags[tag]?.let { return viewTypes[it] }
-        throw IllegalStateException("There are no view types with tag = $tag. Type must been explicitly " +
-                "declared with dsl method \"withViewType(TAG, configuration)\"")
+        throw UndeclaredTag(tag)
     }
 
     internal fun invalidateItems() {
         val newViewTypes = mutableListOf<AdapterViewType<Any>>()
         viewTypes.forEach { adapterViewType ->
-            val fromPosition = newViewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
+            val fromPosition =
+                newViewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
             newViewTypes.add(adapterViewType)
             val toPosition = fromPosition + adapterViewType.configuration.getInternalItems().size
             adapterViewType.positionRange = fromPosition until if (toPosition < 1) 1 else toPosition
+        }
+    }
+
+    internal fun validate() {
+        when {
+            viewTypes.firstOrNull { it.configuration.layoutResId == -1 } != null -> throw UndefinedLayout(
+                "Adapter layout is not set, please declare it for each AdapterViewType with withLayoutResId() function"
+            )
         }
     }
 }

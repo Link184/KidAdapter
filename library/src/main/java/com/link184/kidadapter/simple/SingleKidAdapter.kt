@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
 
-open class SimpleAdapter<T> (private val configuration: SimpleAdapterConfiguration<T>)
+open class SingleKidAdapter<T> (private val configuration: SingleKidAdapterConfiguration<T>)
     : BaseAdapter<T, BaseViewHolder<T>>(configuration.items) {
+    init {
+        configuration.validate()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
         val view = LayoutInflater.from(parent.context).inflate(configuration.layoutResId, parent, false)
