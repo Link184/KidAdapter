@@ -16,22 +16,43 @@ class SingleKidAdapterConfiguration<T> {
     internal var bindHolder: View.(T) -> Unit = {}
         private set
 
+    /**
+     * Set adapter view type items here.
+     * @param items items to be inserted in RecyclerView.
+     */
     fun withItems(items: MutableList<T>) {
         this.items.reset(items)
     }
 
+    /**
+     * Set adapter view type item here.
+     * @param item item to be inserted in RecyclerView
+     */
     fun withItem(item: T) {
         this.items.reset(mutableListOf(item))
     }
 
+    /**
+     * Set [androidx.recyclerview.widget.RecyclerView.LayoutManager] of a current [RecyclerView].
+     * By default it is a vertical [androidx.recyclerview.widget.LinearLayoutManager]
+     * @param block configure your layout manager here
+     */
     fun withLayoutManager(layoutManager: RecyclerView.LayoutManager) {
         this.layoutManager = layoutManager
     }
 
+    /**
+     * Set layout resource id which will be bounded to actual view type
+     * @param layoutResId desired layout resource id
+     */
     fun withLayoutResId(@LayoutRes layoutResId: Int) {
         this.layoutResId = layoutResId
     }
 
+    /**
+     * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
+     * @param block is executed in [RecyclerView.ViewHolder.itemView] context
+     */
     fun bind(block: View.(T) -> Unit) {
         this.bindHolder = block
     }

@@ -7,38 +7,85 @@ import com.link184.kidadapter.exceptions.WrongTagType
 class UpdateConfiguration {
     val updateQueue = mutableListOf<UpdateItem<*>>()
 
+    /**
+     * Insert items from specific index into already declared view typed list.
+     * @param index index from where items should been inserted
+     * @param items a mutable list which should been inserted.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> insert(index: Int, items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertMiddle(index)))
     }
 
+    /**
+     * Insert a item from specific index into already declared view typed list.
+     * @param index index from where items should been inserted
+     * @param item a item which should been inserted.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> insert(index: Int, item: T, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertMiddle(index)))
     }
 
+    /**
+     * Insert a item from index 0 into already declared view typed list.
+     * @param item a item which should been inserted.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> insertTop(item: T, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertTop))
     }
 
+    /**
+     * Insert items from index 0 into already declared view typed list.
+     * @param items a mutable list which should been inserted.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> insertTop(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertTop))
     }
 
+    /**
+     * Insert a item from last index into already declared view typed list.
+     * @param item a item which should been inserted.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> insertBottom(item: T, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertBottom))
     }
 
+    /**
+     * Insert items from last index into already declared view typed list.
+     * @param items a mutable list which should been inserted.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> insertBottom(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertBottom))
     }
 
+    /**
+     * Replace ALL items form already declared list.
+     * @param items a mutable list which should been replaced.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> replaceAllItems(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.ReplaceAll))
     }
 
+    /**
+     * Remove items from already declared list.
+     * @param items a mutable list which should been removed.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> removeItems(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Remove))
     }
 
+
+    /**
+     * Remove all items from already declared list.
+     * @param tag nullable tag. It must been declared on adapter initialization.
+     */
     inline fun <reified T> removeAll(tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, mutableListOf(), UpdateType.Remove))
     }

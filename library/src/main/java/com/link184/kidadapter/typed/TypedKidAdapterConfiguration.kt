@@ -6,11 +6,20 @@ import com.link184.kidadapter.exceptions.UndefinedLayout
 import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 
+/**
+ * Typed Adapter configuration holder.
+ */
 class TypedKidAdapterConfiguration {
     internal val viewTypes = mutableListOf<AdapterViewType<Any>>()
     internal var layoutManager: RecyclerView.LayoutManager? = null
     private val tags = mutableMapOf<String, Int>()
 
+    /**
+     * Declare adapter view type.
+     * @param tag each view type can be associated with unique string value. Useful when you adapter contains multiple
+     * view types with the same data type, in this case you can easily update desired view type by tag.
+     * @param block configure your view type here.
+     */
     fun withViewType(tag: String? = null, block: AdapterViewTypeConfiguration.() -> Unit) {
         val fromPosition =
             viewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
@@ -18,12 +27,19 @@ class TypedKidAdapterConfiguration {
         tag?.let { tags.put(it, viewTypes.lastIndex) }
     }
 
+    /**
+     * Set [androidx.recyclerview.widget.RecyclerView.LayoutManager] of a current [RecyclerView].
+     * By default it is a vertical [androidx.recyclerview.widget.LinearLayoutManager]
+     * @param block configure your layout manager here
+     */
     fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {
         layoutManager = block()
     }
 
     /**
      * Useful to build [TypedKidAdapter] from [SingleKidAdapterConfiguration]
+     * @param block configure your single adapter configuration here
+     * @return typed adapter configuration transformed from single adapter configuration
      */
     fun fromSimpleConfiguration(block: SingleKidAdapterConfiguration<*>.() -> Unit): TypedKidAdapterConfiguration {
         return TypedKidAdapterConfiguration().apply {
