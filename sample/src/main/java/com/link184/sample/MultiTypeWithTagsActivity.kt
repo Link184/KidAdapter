@@ -27,7 +27,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
                 }
             }
 
-            withViewType {
+            withViewType("test") {
                 withLayoutResId(R.layout.item_int)
                 withItems(mutableListOf(1, 2, 3, 4, 5, 6))
                 bind<Int> {
@@ -48,6 +48,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
         recyclerView.postDelayed({
             adapter.update {
                 insertBottom(mutableListOf("thirteen", "fourteen"), SECOND_STRING_TAG)
+                insertTop(mutableListOf("asd", "asd"), "test")
             }
         }, 2_000)
 

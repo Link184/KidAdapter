@@ -2,6 +2,7 @@ package com.link184.kidadapter.typed
 
 import com.link184.kidadapter.base.KidDiffUtilCallback
 import com.link184.kidadapter.exceptions.UndeclaredTypeModification
+import com.link184.kidadapter.exceptions.WrongTagType
 
 class UpdateConfiguration {
     val updateQueue = mutableListOf<UpdateItem<*>>()
@@ -79,7 +80,11 @@ class UpdateConfiguration {
 
     private fun <T> getAdapterViewTypeByType(item: UpdateItem<T>, typedKidAdapterConfiguration: TypedKidAdapterConfiguration): AdapterViewType<Any> {
         item.tag?.let {
-            return typedKidAdapterConfiguration.getViewTypeByTag(it)
+            return typedKidAdapterConfiguration.getViewTypeByTag(it).also { byTypeItem ->
+                if (byTypeItem.configuration.modelType != item.modelType) {
+                    throw WrongTagType(it)
+                }
+            }
         }
 
         val itemIsPresent = typedKidAdapterConfiguration.viewTypes.any { it.configuration.modelType == item.modelType }

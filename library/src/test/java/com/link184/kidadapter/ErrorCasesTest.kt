@@ -1,9 +1,6 @@
 package com.link184.kidadapter
 
-import com.link184.kidadapter.exceptions.UndeclaredTag
-import com.link184.kidadapter.exceptions.UndeclaredTypeModification
-import com.link184.kidadapter.exceptions.UndefinedLayout
-import com.link184.kidadapter.exceptions.ZeroViewTypes
+import com.link184.kidadapter.exceptions.*
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
@@ -70,6 +67,29 @@ class ErrorCasesTest {
         assertFailsWith<UndeclaredTag> {
             adapter.update {
                 insertBottom(333_333, "UNDEFINED TAG")
+            }
+        }
+    }
+
+    @Test
+    fun t4_wrongTag() {
+        val adapter = activityController.get().recyclerView.setUp {
+            withViewType("first_tag") {
+                withItems(mutableListOf("one", "two"))
+                withLayoutResId(android.R.layout.list_content)
+                bind<String> { }
+            }
+
+            withViewType("second_tag") {
+                withItems(mutableListOf(1, 2, 3))
+                withLayoutResId(android.R.layout.list_content)
+                bind<Int> { }
+            }
+        }
+
+        assertFailsWith<WrongTagType> {
+            adapter.update {
+                insertTop(mutableListOf(4, 5, 6), "first_tag")
             }
         }
     }
