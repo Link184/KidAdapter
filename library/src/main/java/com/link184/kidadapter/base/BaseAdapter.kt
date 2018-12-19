@@ -11,7 +11,7 @@ abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: Kid
         holder.bindView(itemList[position])
     }
 
-    operator fun plusAssign(itemList: MutableList<T>) {
+    open operator fun plusAssign(itemList: MutableList<T>) {
         this.itemList.reset(itemList)
     }
 

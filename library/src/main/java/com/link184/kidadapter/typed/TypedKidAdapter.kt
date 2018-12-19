@@ -39,6 +39,10 @@ open class TypedKidAdapter(
 
     open fun onItemClick(itemView: View, position: Int) {}
 
+    /**
+     * Update adapter
+     * @param block setup update logic here
+     */
     fun update(block: UpdateConfiguration.() -> Unit) {
         val diffCallbacks = UpdateConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
         this += typedKidAdapterConfiguration.getAllItems()

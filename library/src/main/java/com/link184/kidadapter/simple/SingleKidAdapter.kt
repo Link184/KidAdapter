@@ -31,4 +31,9 @@ open class SingleKidAdapter<T> (private val configuration: SingleKidAdapterConfi
     }
 
     open fun onItemClick(itemView: View, position: Int) {}
+
+    override operator fun plusAssign(itemList: MutableList<T>) {
+        this.itemList.reset(itemList)
+        notifyDataSetChanged()
+    }
 }

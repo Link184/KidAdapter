@@ -81,7 +81,6 @@ class UpdateConfiguration {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Remove))
     }
 
-
     /**
      * Remove all items from already declared list.
      * @param tag nullable tag. It must been declared on adapter initialization.

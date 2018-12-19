@@ -25,7 +25,7 @@ android {
 }
 
 repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+//    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 dependencies {
@@ -38,5 +38,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.0.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-alpha01'
 
-    implementation project(':library')
+//    implementation project(':library')
+    implementation "com.link184:kid-adapter:1.0.0"
 }

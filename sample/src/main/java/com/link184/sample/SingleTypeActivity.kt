@@ -4,9 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_single_type.*
-import kotlinx.android.synthetic.main.item_text.view.*
 import java.util.*
 
 class SingleTypeActivity: AppCompatActivity() {
@@ -15,7 +13,7 @@ class SingleTypeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_type)
 
-        recyclerView.setUp<String> {
+        val adapter = recyclerView.setUp<String> {
             withLayoutResId(R.layout.item_text)
             withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
             bind {
@@ -23,6 +21,8 @@ class SingleTypeActivity: AppCompatActivity() {
                 stringName.text = it
             }
         }
+
+        recyclerView.postDelayed({ adapter + "1" }, 2_000)
     }
 
     private fun getRandomColor(): Int {
