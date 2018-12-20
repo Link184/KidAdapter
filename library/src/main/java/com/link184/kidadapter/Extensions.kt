@@ -1,7 +1,7 @@
 package com.link184.kidadapter
 
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.link184.kidadapter.simple.SingleKidAdapter
 import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 import com.link184.kidadapter.typed.TypedKidAdapter

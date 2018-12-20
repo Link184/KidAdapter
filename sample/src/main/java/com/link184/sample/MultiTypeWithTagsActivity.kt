@@ -1,8 +1,8 @@
 package com.link184.sample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_multi_type_with_tags.*
 import kotlinx.android.synthetic.main.item_int.view.*
@@ -27,7 +27,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
                 }
             }
 
-            withViewType("test") {
+            withViewType {
                 withLayoutResId(R.layout.item_int)
                 withItems(mutableListOf(1, 2, 3, 4, 5, 6))
 
@@ -49,7 +49,6 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
         recyclerView.postDelayed({
             adapter.update {
                 insertBottom(mutableListOf("thirteen", "fourteen"), SECOND_STRING_TAG)
-                insertTop(mutableListOf("asd", "asd"), "test")
             }
         }, 2_000)
 

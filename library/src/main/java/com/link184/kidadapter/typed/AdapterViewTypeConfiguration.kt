@@ -1,9 +1,7 @@
 package com.link184.kidadapter.typed
 
+import android.support.annotation.LayoutRes
 import android.view.View
-import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.base.KidDiffUtilCallback
 import com.link184.kidadapter.base.KidList
 

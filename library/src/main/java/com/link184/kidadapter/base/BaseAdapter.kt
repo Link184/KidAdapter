@@ -1,6 +1,6 @@
 package com.link184.kidadapter.base
 
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.RecyclerView
 
 abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: KidList<T>) : RecyclerView.Adapter<H>() {
     constructor(itemList: MutableList<T>) : this(KidList(itemList))

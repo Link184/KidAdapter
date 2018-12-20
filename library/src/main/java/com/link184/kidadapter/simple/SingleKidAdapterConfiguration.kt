@@ -1,8 +1,8 @@
 package com.link184.kidadapter.simple
 
+import android.support.annotation.LayoutRes
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.base.KidList
 import com.link184.kidadapter.exceptions.UndefinedLayout
 
@@ -11,7 +11,8 @@ class SingleKidAdapterConfiguration<T> {
         private set
     internal var layoutManager: RecyclerView.LayoutManager? = null
         private set
-    @LayoutRes internal var layoutResId: Int = -1
+    @LayoutRes
+    internal var layoutResId: Int = -1
         private set
     internal var bindHolder: View.(T) -> Unit = {}
         private set

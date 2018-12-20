@@ -93,7 +93,7 @@ Update multiple view type adapter.
 ```kotlin
 adapter.update {
     insertBottom(mutableListOf("thirteen", "fourteen"), SECOND_STRING_TAG)
-    insertTop(mutableListOf("asd", "asd")) // there are no tag, library automatically detect ind insert items on first list of strings
+    insertTop(mutableListOf("asd", "asd")) // there are no tag, library automatically detect and insert items on first list of strings
     insert(2, mutableListOf(4, 5, 6, 7)) // not tag, items will be inserted in first list of ints
     removeItems(mutableListOf(1,3,6))
     removeItems(mutableListOf("one", "thirteen"))

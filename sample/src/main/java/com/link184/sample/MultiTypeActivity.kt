@@ -1,8 +1,8 @@
 package com.link184.sample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_multi_type.*
 import kotlinx.android.synthetic.main.item_int.view.*
