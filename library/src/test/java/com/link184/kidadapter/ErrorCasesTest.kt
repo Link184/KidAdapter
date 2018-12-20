@@ -1,6 +1,8 @@
 package com.link184.kidadapter
 
+/* ktlint-disable no-wildcard-imports */
 import com.link184.kidadapter.exceptions.*
+/* ktlint-enable no-wildcard-imports */
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test

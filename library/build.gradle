@@ -27,6 +27,7 @@ artifacts {
 }
 
 signing {
+    required { !VERSION_NAME.contains("SNAPSHOT") }
     sign configurations.archives
 }
 
