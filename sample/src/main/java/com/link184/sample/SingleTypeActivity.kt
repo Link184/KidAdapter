@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_single_type.*
+import kotlinx.android.synthetic.main.item_text.view.*
 import java.util.*
 
 class SingleTypeActivity: AppCompatActivity() {

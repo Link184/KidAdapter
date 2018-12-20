@@ -30,6 +30,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
             withViewType("test") {
                 withLayoutResId(R.layout.item_int)
                 withItems(mutableListOf(1, 2, 3, 4, 5, 6))
+
                 bind<Int> {
                     intName.text = it.toString()
                 }

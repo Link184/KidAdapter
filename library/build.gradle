@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -25,9 +26,15 @@ artifacts {
     archives androidSourcesJar
 }
 
+signing {
+    sign configurations.archives
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
             repository(url: resolveRepositoyUrl()) {
                 authentication(userName: getUsername(),
                         password: getPassword())
@@ -38,6 +45,7 @@ uploadArchives {
             }
 
             pom.project {
+                name POM_NAME
                 description POM_DESCRIPTION
                 url POM_URL
 

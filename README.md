@@ -2,6 +2,7 @@
 ![logo](https://github.com/Link184/KidAdapter/blob/master/logo.png)
 
 # KidAdapter
+RecyclerView adapter for kids.
 
 A kotlin dsl mechanism to simplify and reduce boilerplate logic of a RecyclerView.Adapter
 
@@ -51,6 +52,14 @@ val adapter = recyclerView.setUp {
         withLayoutResId(R.layout.item_text)
         // set items to currect view type
         withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
+        // optional, a callback from DiffUtils, by default it compare items with equals() method, set it if you need a custom behavior
+        withContentComparator<String> { oldItem, newItem ->
+            oldItem.length > newItem.length
+        }
+        // optional, a callback from DiffUtils, by default it compare items with equals() method, set it if you need a custom behavior
+        withItemsComparator<Int> { oldItem, newItem -> 
+            oldItem.hashCode() == newItem.hashCode()
+        }
         // set bind action
         bind<String> { // this - is adapter view hoder itemView, item - current item
             stringName.text = it
