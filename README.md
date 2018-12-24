@@ -18,7 +18,7 @@ Gradle
 Gradle:
 
 ```gradle
-implementation 'com.link184:kid-adapter:1.0.4'
+implementation 'com.link184:kid-adapter:1.0.5'
 ```
 
 Samples
@@ -90,14 +90,14 @@ val adapter = recyclerView.setUp {
     }
     
     //Update adapter as needed
-    adapter.update { ... }
+    adapter update { ... }
 }
 ```
 
 Update multiple view type adapter.
 
 ```kotlin
-adapter.update {
+adapter update {
     insertBottom(mutableListOf("thirteen", "fourteen"), SECOND_STRING_TAG)
     insertTop(mutableListOf("asd", "asd")) // there are no tag, library automatically detect and insert items on first list of strings
     insert(2, mutableListOf(4, 5, 6, 7)) // no tag, items will be inserted in first list of integers
