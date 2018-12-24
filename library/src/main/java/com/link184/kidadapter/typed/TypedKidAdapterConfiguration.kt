@@ -28,8 +28,8 @@ class TypedKidAdapterConfiguration {
     }
 
     /**
-     * Set [androidx.recyclerview.widget.RecyclerView.LayoutManager] of a current [RecyclerView].
-     * By default it is a vertical [androidx.recyclerview.widget.LinearLayoutManager]
+     * Set [RecyclerView.LayoutManager] of a current [RecyclerView].
+     * By default it is a vertical [LinearLayoutManager]
      * @param block configure your layout manager here
      */
     fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {

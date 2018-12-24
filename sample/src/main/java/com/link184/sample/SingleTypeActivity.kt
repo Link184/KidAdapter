@@ -24,6 +24,9 @@ class SingleTypeActivity: AppCompatActivity() {
         }
 
         recyclerView.postDelayed({ adapter + "1" }, 2_000)
+        recyclerView.postDelayed({ adapter + mutableListOf("2", "3", "4") }, 4_000)
+        recyclerView.postDelayed({ adapter[2] =  "3" }, 4_000)
+        recyclerView.postDelayed({ adapter.clear() }, 8_000)
     }
 
     private fun getRandomColor(): Int {

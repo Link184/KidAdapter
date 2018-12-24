@@ -1,6 +1,6 @@
 package com.link184.kidadapter.base
 
-class KidList<E>(internal var newList: MutableList<E> = mutableListOf()) : List<E> {
+open class KidList<E>(internal var newList: MutableList<E> = mutableListOf()) : List<E> {
     private var oldList: MutableList<E>? = null
 
     override val size: Int

@@ -43,7 +43,7 @@ open class TypedKidAdapter(
      * Update adapter
      * @param block setup update logic here
      */
-    fun update(block: UpdateConfiguration.() -> Unit) {
+    infix fun update(block: UpdateConfiguration.() -> Unit) {
         val diffCallbacks = UpdateConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
         this += typedKidAdapterConfiguration.getAllItems()
         // todo: hack to avoid : java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid item position 1(offset:0).state:17

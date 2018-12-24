@@ -16,6 +16,8 @@ class SingleKidAdapterConfiguration<T> {
         private set
     internal var bindHolder: View.(T) -> Unit = {}
         private set
+    internal var contentComparator: ((T, T) -> Boolean)? = null
+    internal var itemsComparator: ((T, T) -> Boolean)? = null
 
     /**
      * Set adapter view type items here.
@@ -48,6 +50,23 @@ class SingleKidAdapterConfiguration<T> {
      */
     fun withLayoutResId(@LayoutRes layoutResId: Int) {
         this.layoutResId = layoutResId
+    }
+
+    /**
+     * Equivalent to [DiffUtil.Callback.areContentsTheSame]. Method call is optional, by default in compare objects
+     * by equals, if you want another behavior then please implement it here.
+     */
+    fun withContentComparator(contentComparator: (T, T) -> Boolean) {
+        this.contentComparator = contentComparator
+    }
+
+    /**
+     * Equivalent to [DiffUtil.Callback.areItemsTheSame]. Method call is optional, by default in compare objects
+     * by equals, if you want another behavior then please implement it here.
+     */
+
+    fun withItemsComparator(itemsComparator: (T, T) -> Boolean) {
+        this.itemsComparator = itemsComparator
     }
 
     /**
