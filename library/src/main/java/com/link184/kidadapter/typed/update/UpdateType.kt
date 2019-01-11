@@ -1,4 +1,4 @@
-package com.link184.kidadapter.typed
+package com.link184.kidadapter.typed.update
 
 sealed class UpdateType {
     sealed class Insert(internal val index: Int) : UpdateType() {

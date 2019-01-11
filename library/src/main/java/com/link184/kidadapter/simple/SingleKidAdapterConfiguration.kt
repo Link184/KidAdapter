@@ -3,6 +3,7 @@ package com.link184.kidadapter.simple
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.link184.kidadapter.ContextDsl
 import com.link184.kidadapter.base.KidList
 import com.link184.kidadapter.exceptions.UndefinedLayout
 
@@ -73,6 +74,7 @@ class SingleKidAdapterConfiguration<T> {
      * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
      * @param block is executed in [RecyclerView.ViewHolder.itemView] context
      */
+    @ContextDsl
     fun bind(block: View.(T) -> Unit) {
         this.bindHolder = block
     }

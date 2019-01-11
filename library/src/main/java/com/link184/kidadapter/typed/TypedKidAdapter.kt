@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
+import com.link184.kidadapter.typed.restructure.RestructureConfiguration
+import com.link184.kidadapter.typed.update.UpdateConfiguration
 
 open class TypedKidAdapter(
     private val typedKidAdapterConfiguration: TypedKidAdapterConfiguration
@@ -57,6 +59,10 @@ open class TypedKidAdapter(
             notifyDataSetChanged()
         }
         itemList.recycle()
+    }
+
+    infix fun restructure(block: RestructureConfiguration.() -> Unit) {
+        RestructureConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
     }
 
     fun <T> getItemsByType(tag: String? = null): MutableList<T> {

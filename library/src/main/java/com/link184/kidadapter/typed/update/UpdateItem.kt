@@ -1,4 +1,4 @@
-package com.link184.kidadapter.typed
+package com.link184.kidadapter.typed.update
 
 data class UpdateItem<T>(
     val modelType: Class<T>?,
