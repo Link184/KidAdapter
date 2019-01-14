@@ -65,6 +65,8 @@ open class TypedKidAdapter(
 
     infix fun restructure(block: RestructureConfiguration.() -> Unit) {
         RestructureConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
+        this += typedKidAdapterConfiguration.getAllItems()
+        notifyDataSetChanged()
     }
 
     fun <T> getItemsByType(tag: String? = null): MutableList<T> {
