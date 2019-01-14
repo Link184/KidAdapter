@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.link184.kidadapter.ExtensionDsl
 import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
 
@@ -43,6 +44,7 @@ open class TypedKidAdapter(
      * Update adapter
      * @param block setup update logic here
      */
+    @ExtensionDsl
     infix fun update(block: UpdateConfiguration.() -> Unit) {
         val diffCallbacks = UpdateConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
         this += typedKidAdapterConfiguration.getAllItems()

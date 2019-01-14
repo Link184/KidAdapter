@@ -37,6 +37,7 @@ val adapter = recyclerView.setUp<MyObject> { //an extension on RecyclerView whic
     bind { item -> // this - adapter view holder itemView, item - current item
         this.setBackgroundColor(getRandomColor())
         stringName.text = item.name //string view is a synthetic inflated view from bind function context 
+        setOnClickListener { ... } //click listener on ViewHolder.itemView
     }
 }
 
@@ -69,6 +70,7 @@ val adapter = recyclerView.setUp {
         // set bind action
         bind<String> { // this - is adapter view hoder itemView, item - current item
             stringName.text = it
+            setOnClickListener { ... } //click listener on ViewHolder.itemView
         }
     }
 

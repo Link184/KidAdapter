@@ -1,5 +1,6 @@
 package com.link184.kidadapter.typed
 
+import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.base.KidDiffUtilCallback
 import com.link184.kidadapter.exceptions.UndeclaredTypeModification
 import com.link184.kidadapter.exceptions.WrongTagType
@@ -13,6 +14,7 @@ class UpdateConfiguration {
      * @param items a mutable list which should been inserted.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> insert(index: Int, items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertMiddle(index)))
     }
@@ -23,6 +25,7 @@ class UpdateConfiguration {
      * @param item a item which should been inserted.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> insert(index: Int, item: T, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertMiddle(index)))
     }
@@ -32,6 +35,7 @@ class UpdateConfiguration {
      * @param item a item which should been inserted.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> insertTop(item: T, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertTop))
     }
@@ -41,6 +45,7 @@ class UpdateConfiguration {
      * @param items a mutable list which should been inserted.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> insertTop(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertTop))
     }
@@ -50,6 +55,7 @@ class UpdateConfiguration {
      * @param item a item which should been inserted.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> insertBottom(item: T, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, item, UpdateType.Insert.InsertBottom))
     }
@@ -59,6 +65,7 @@ class UpdateConfiguration {
      * @param items a mutable list which should been inserted.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> insertBottom(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertBottom))
     }
@@ -67,7 +74,7 @@ class UpdateConfiguration {
      * Replace ALL items form already declared list.
      * @param items a mutable list which should been replaced.
      * @param tag nullable tag. It must been declared on adapter initialization.
-     */
+     */@ConfigurationDsl
     inline fun <reified T> replaceAllItems(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.ReplaceAll))
     }
@@ -77,6 +84,7 @@ class UpdateConfiguration {
      * @param items a mutable list which should been removed.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> removeItems(items: MutableList<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Remove))
     }
@@ -85,6 +93,7 @@ class UpdateConfiguration {
      * Remove all items from already declared list.
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
+    @ConfigurationDsl
     inline fun <reified T> removeAll(tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, mutableListOf(), UpdateType.Remove))
     }

@@ -61,13 +61,13 @@ class ErrorCasesTest {
         }
 
         assertFailsWith<UndeclaredTypeModification> {
-            adapter.update {
+            adapter update {
                 insertTop(1_000_000_000)
             }
         }
 
         assertFailsWith<UndeclaredTag> {
-            adapter.update {
+            adapter update {
                 insertBottom(333_333, "UNDEFINED TAG")
             }
         }
@@ -90,7 +90,7 @@ class ErrorCasesTest {
         }
 
         assertFailsWith<WrongTagType> {
-            adapter.update {
+            adapter update {
                 insertTop(mutableListOf(4, 5, 6), "first_tag")
             }
         }

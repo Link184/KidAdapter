@@ -2,6 +2,8 @@ package com.link184.kidadapter.typed
 
 import android.support.annotation.LayoutRes
 import android.view.View
+import com.link184.kidadapter.BindDsl
+import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.base.KidDiffUtilCallback
 import com.link184.kidadapter.base.KidList
 
@@ -25,6 +27,7 @@ class AdapterViewTypeConfiguration {
      * Set adapter view type items here.
      * @param items items to be inserted in RecyclerView.
      */
+    @ConfigurationDsl
     inline fun <reified T> withItems(items: MutableList<T>) {
         setInternalItems(items as MutableList<Any>)
         this.modelType = T::class.java
@@ -34,6 +37,7 @@ class AdapterViewTypeConfiguration {
      * Set adapter view type item here.
      * @param item item to be inserted in RecyclerView
      */
+    @ConfigurationDsl
     inline fun <reified T> withItem(item: T) {
         setInternalItems(mutableListOf(item as Any))
         this.modelType = T::class.java
@@ -43,6 +47,7 @@ class AdapterViewTypeConfiguration {
      * Set adapter view type initialization with empty list. Is mandatory to call because KidAdapter must know all
      * data types for future items update (in runtime)
      */
+    @ConfigurationDsl
     inline fun <reified T> withEmptyList() {
         setInternalItems(mutableListOf())
         this.modelType = T::class.java
@@ -52,6 +57,7 @@ class AdapterViewTypeConfiguration {
      * Equivalent to [DiffUtil.Callback.areContentsTheSame]. Method call is optional, by default in compare objects
      * by equals, if you want another behavior then please implement it here.
      */
+    @ConfigurationDsl
     fun <T> withContentComparator(contentComparator: (T, T) -> Boolean) {
         this.contentComparator = contentComparator as (Any, Any) -> Boolean
     }
@@ -60,7 +66,7 @@ class AdapterViewTypeConfiguration {
      * Equivalent to [DiffUtil.Callback.areItemsTheSame]. Method call is optional, by default in compare objects
      * by equals, if you want another behavior then please implement it here.
      */
-
+    @ConfigurationDsl
     fun <T> withItemsComparator(itemsComparator: (T, T) -> Boolean) {
         this.itemsComparator = itemsComparator as (Any, Any) -> Boolean
     }
@@ -69,6 +75,7 @@ class AdapterViewTypeConfiguration {
      * Set layout resource id which will be bounded to actual view type
      * @param layoutResId desired layout resource id
      */
+    @ConfigurationDsl
     fun withLayoutResId(@LayoutRes layoutResId: Int) {
         this.layoutResId = layoutResId
     }
@@ -77,6 +84,7 @@ class AdapterViewTypeConfiguration {
      * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
      * @param block is executed in [RecyclerView.ViewHolder.itemView] context
      */
+    @BindDsl
     fun <T> bind(block: View.(T) -> Unit) {
         bindHolder = (block as View.(Any) -> Unit)
     }
