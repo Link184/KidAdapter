@@ -1,6 +1,7 @@
 package com.link184.kidadapter.typed
 
 import android.support.v7.widget.RecyclerView
+import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.exceptions.UndeclaredTag
 import com.link184.kidadapter.exceptions.UndefinedLayout
 import com.link184.kidadapter.exceptions.ZeroViewTypes
@@ -20,6 +21,7 @@ class TypedKidAdapterConfiguration {
      * view types with the same data type, in this case you can easily update desired view type by tag.
      * @param block configure your view type here.
      */
+    @ConfigurationDsl
     fun withViewType(tag: String? = null, block: AdapterViewTypeConfiguration.() -> Unit) {
         val fromPosition =
             viewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
@@ -32,7 +34,9 @@ class TypedKidAdapterConfiguration {
      * By default it is a vertical [LinearLayoutManager]
      * @param block configure your layout manager here
      */
-    fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {
+
+    @ConfigurationDsl
+    infix fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {
         layoutManager = block()
     }
 
@@ -41,7 +45,8 @@ class TypedKidAdapterConfiguration {
      * @param block configure your single adapter configuration here
      * @return typed adapter configuration transformed from single adapter configuration
      */
-    fun fromSimpleConfiguration(block: SingleKidAdapterConfiguration<*>.() -> Unit): TypedKidAdapterConfiguration {
+    @ConfigurationDsl
+    infix fun fromSimpleConfiguration(block: SingleKidAdapterConfiguration<*>.() -> Unit): TypedKidAdapterConfiguration {
         return TypedKidAdapterConfiguration().apply {
             val adapterConfiguration = SingleKidAdapterConfiguration<Any>().apply(block)
             withLayoutManager { adapterConfiguration.layoutManager }
