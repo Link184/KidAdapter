@@ -63,6 +63,11 @@ open class TypedKidAdapter(
         itemList.recycle()
     }
 
+    /**
+     * Restructure view types list.
+     * @param block restructuring logic here. View types are treated here like a simple list which can suffer
+     * consecutively changes of his items.
+     */
     @ExtensionDsl
     infix fun restructure(block: RestructureConfiguration.() -> Unit) {
         RestructureConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
