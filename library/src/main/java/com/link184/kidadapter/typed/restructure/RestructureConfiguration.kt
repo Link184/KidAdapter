@@ -6,7 +6,9 @@ import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.typed.AdapterViewType
 import com.link184.kidadapter.typed.AdapterViewTypeConfiguration
 import com.link184.kidadapter.typed.TypedKidAdapterConfiguration
+/* ktlint-disable no-wildcard-imports */
 import java.util.*
+/* ktlint-enable no-wildcard-imports */
 
 class RestructureConfiguration {
     private val restructureQueue = mutableListOf<RestructureItem>()
