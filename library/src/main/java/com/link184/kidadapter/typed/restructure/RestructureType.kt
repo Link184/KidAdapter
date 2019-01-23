@@ -14,6 +14,8 @@ sealed class RestructureType {
     class Remove(internal val index: Int) : RestructureType()
     object RemoveAll : RestructureType()
 
+    class Swap(internal val firstIndex: Int, internal val secondIndex: Int) : RestructureType()
+
     fun resolveIndex(currentList: MutableList<*>): Int {
         if (this is Insert.InsertBottom) {
             return currentList.size

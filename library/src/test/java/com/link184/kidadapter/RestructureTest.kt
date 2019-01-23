@@ -55,7 +55,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t1_insertViewType() {
+    fun t01_insertViewType() {
         val items = mutableListOf(4, 5, 6, 7)
         adapter restructure {
             insert(2, "tag") {
@@ -77,7 +77,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t2_insertTopViewType() {
+    fun t02_insertTopViewType() {
         val items = mutableListOf("2", "3", "4")
         adapter restructure {
             insertTop {
@@ -104,7 +104,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t3_insertBottomViewType() {
+    fun t03_insertBottomViewType() {
         val items = mutableListOf(5.5, 6.6, 7.7)
         adapter restructure {
             insertBottom {
@@ -130,7 +130,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t4_removeByTagViewType() {
+    fun t04_removeByTagViewType() {
         adapter restructure {
             insert(2, "myTag") {
                 withItem("22")
@@ -165,7 +165,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t5_removeByIndexViewType() {
+    fun t05_removeByIndexViewType() {
         adapter restructure {
             insert(2, "myTag") {
                 withItem("22")
@@ -200,7 +200,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t6_removeAllViewType() {
+    fun t06_removeAllViewType() {
         assertFailsWith<ZeroViewTypes> {
             adapter.restructure {
                 removeAll()
@@ -209,7 +209,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t7_replaceByTagViewType() {
+    fun t07_replaceByTagViewType() {
         adapter restructure {
             insertBottom("myTag") {
                 withItem("22")
@@ -252,7 +252,7 @@ class RestructureTest {
     }
 
     @Test
-    fun t8_replaceByIndexViewType() {
+    fun t08_replaceByIndexViewType() {
         adapter restructure {
             insert(2, "myTag") {
                 withItem("22")
@@ -320,7 +320,20 @@ class RestructureTest {
     }
 
     @Test
-    fun t9_mixedRestructuringViewType() {
+    fun t09_swapViewType() {
+        adapter restructure {
+            swap(0, 2)
+        }
+
+        assertTrue {
+            oldListSize == adapter.itemCount &&
+                    adapter[0] is String &&
+                    adapter[adapter.itemCount - 1] is Int
+        }
+    }
+
+    @Test
+    fun t10_mixedRestructuringViewType() {
         val simpleViewType: AdapterViewTypeConfiguration.() -> Unit = {
             withItem(44)
             withLayoutResId(R.layout.list_content)

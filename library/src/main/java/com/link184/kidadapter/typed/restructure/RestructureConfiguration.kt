@@ -6,6 +6,7 @@ import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.typed.AdapterViewType
 import com.link184.kidadapter.typed.AdapterViewTypeConfiguration
 import com.link184.kidadapter.typed.TypedKidAdapterConfiguration
+import java.util.*
 
 class RestructureConfiguration {
     private val restructureQueue = mutableListOf<RestructureItem>()
@@ -105,6 +106,20 @@ class RestructureConfiguration {
         restructureQueue.add(RestructureItem(newTag, block, RestructureType.ReplaceByIndex(index)))
     }
 
+    /**
+     * 2 [AdapterViewType] are swapping between them. The same as [Collections.swap]
+     * @param firstIndex the index of one element to be swapped.
+     * @param secondIndex index of the other element to be swapped.
+     *
+     * @throws IndexOutOfBoundsException if either <tt>i</tt> or <tt>j</tt>
+     *         is out of range (i &lt; 0 || i &gt;= list.size()
+     *         || j &lt; 0 || j &gt;= list.size()).
+     */
+    @ConfigurationDsl
+    fun swap(firstIndex: Int, secondIndex: Int) {
+        restructureQueue.add(RestructureItem(null, { }, RestructureType.Swap(firstIndex, secondIndex)))
+    }
+
     internal fun doUpdate(typedKidAdapterConfiguration: TypedKidAdapterConfiguration) {
         val viewTypes = typedKidAdapterConfiguration.viewTypes
         restructureQueue.forEach {
@@ -129,6 +144,7 @@ class RestructureConfiguration {
                     val index = viewTypes.indexOfFirst { item -> item.tag == it.tag }
                     viewTypes[index] = AdapterViewType(it.tag, 0, it.configuration)
                 }
+                is RestructureType.Swap -> Collections.swap(viewTypes, it.restructureType.firstIndex, it.restructureType.secondIndex)
             }
         }
         typedKidAdapterConfiguration.invalidateItems()
