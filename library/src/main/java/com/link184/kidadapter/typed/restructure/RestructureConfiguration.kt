@@ -1,6 +1,7 @@
 package com.link184.kidadapter.typed.restructure
 
 import com.link184.kidadapter.ConfigurationDsl
+import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.typed.AdapterViewType
 import com.link184.kidadapter.typed.AdapterViewTypeConfiguration
 import com.link184.kidadapter.typed.TypedKidAdapterConfiguration
@@ -33,49 +34,48 @@ class RestructureConfiguration {
         restructureQueue.add(RestructureItem(null, { }, RestructureType.Remove(index)))
     }
 
+    /**
+     * Removes all declared [AdapterViewType]. Use only in combination with other operators, do not leave adapter empty,
+     * otherwise [ZeroViewTypes] can be thrown. todo: review ZeroViewTypes exception, maybe is useless
+     */
     @ConfigurationDsl
     fun removeAll() {
         restructureQueue.add(RestructureItem(null, { }, RestructureType.RemoveAll))
     }
 
     @ConfigurationDsl
-    fun replace(tag: String?, block: AdapterViewTypeConfiguration.() -> Unit) {
-        restructureQueue.add(RestructureItem(tag, block, RestructureType.Replace(-1)))
+    fun replace(tag: String, block: AdapterViewTypeConfiguration.() -> Unit) {
+        restructureQueue.add(RestructureItem(tag, block, RestructureType.ReplaceByTag(tag)))
     }
 
     @ConfigurationDsl
-    fun replace(index: Int, block: AdapterViewTypeConfiguration.() -> Unit) {
-        restructureQueue.add(RestructureItem(null, block, RestructureType.Replace(index)))
+    fun replace(index: Int, newTag: String? = null, block: AdapterViewTypeConfiguration.() -> Unit) {
+        restructureQueue.add(RestructureItem(newTag, block, RestructureType.ReplaceByIndex(index)))
     }
 
     internal fun doUpdate(typedKidAdapterConfiguration: TypedKidAdapterConfiguration) {
         val viewTypes = typedKidAdapterConfiguration.viewTypes
         restructureQueue.forEach {
             when (it.restructureType) {
+                is RestructureType.Insert.InsertTop -> viewTypes.add(0, AdapterViewType(it.tag, 0, it.configuration))
+                is RestructureType.Insert.InsertBottom -> viewTypes.add(AdapterViewType(it.tag, 0, it.configuration))
                 is RestructureType.Insert -> viewTypes.add(
                     it.restructureType.index,
-                    AdapterViewType(0, it.configuration)
+                    AdapterViewType(it.tag, 0, it.configuration)
                 )
-                is RestructureType.Insert.InsertTop -> viewTypes.add(0, AdapterViewType(0, it.configuration))
-                is RestructureType.Insert.InsertBottom -> viewTypes.add(viewTypes.lastIndex, AdapterViewType(0, it.configuration))
                 is RestructureType.Remove -> {
                     if (it.tag != null) {
-                        //todo: do more better
-                        typedKidAdapterConfiguration.ta
+                        viewTypes.remove(viewTypes.first { item -> item.tag == it.tag })
                     }
                     if (it.restructureType.index != -1) {
                         viewTypes.removeAt(it.restructureType.index)
                     }
                 }
                 is RestructureType.RemoveAll -> viewTypes.clear()
-                is RestructureType.Replace -> {
-                    if (it.tag != null) {
-                        //todo: do more better
-                        typedKidAdapterConfiguration.ta
-                    }
-                    if (it.restructureType.index != -1) {
-                        viewTypes.set(it.restructureType.index, AdapterViewType(0, it.configuration))
-                    }
+                is RestructureType.ReplaceByIndex -> viewTypes[it.restructureType.index] = AdapterViewType(it.tag, 0, it.configuration)
+                is RestructureType.ReplaceByTag -> {
+                    val index = viewTypes.indexOfFirst { item -> item.tag == it.tag }
+                    viewTypes[index] = AdapterViewType(it.tag, 0, it.configuration)
                 }
             }
         }

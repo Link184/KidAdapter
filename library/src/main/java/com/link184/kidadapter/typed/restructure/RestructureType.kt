@@ -8,7 +8,8 @@ sealed class RestructureType {
     }
 
     object ReplaceAll : RestructureType()
-    class Replace(internal val index: Int) : RestructureType()
+    class ReplaceByIndex(internal val index: Int) : RestructureType()
+    class ReplaceByTag(internal val tag: String) : RestructureType()
 
     class Remove(internal val index: Int) : RestructureType()
     object RemoveAll : RestructureType()
@@ -17,13 +18,13 @@ sealed class RestructureType {
         if (this is Insert.InsertBottom) {
             return currentList.size
         }
-        if (this is Insert ) {
+        if (this is Insert) {
             return index
         }
         if (this is Remove) {
             return index
         }
-        if (this is Replace) {
+        if (this is ReplaceByIndex) {
             return index
         }
         return -1

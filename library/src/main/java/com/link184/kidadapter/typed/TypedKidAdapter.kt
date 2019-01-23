@@ -63,6 +63,7 @@ open class TypedKidAdapter(
         itemList.recycle()
     }
 
+    @ExtensionDsl
     infix fun restructure(block: RestructureConfiguration.() -> Unit) {
         RestructureConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
         this += typedKidAdapterConfiguration.getAllItems()
@@ -71,8 +72,8 @@ open class TypedKidAdapter(
 
     fun <T> getItemsByType(tag: String? = null): MutableList<T> {
         if (tag != null) {
-            return typedKidAdapterConfiguration.getViewTypeByTag(tag).configuration.getInternalItems() as MutableList<T>
+            return (typedKidAdapterConfiguration.getViewTypeByTag(tag).configuration.getInternalItems() as List<T>).toMutableList()
         }
-        return typedKidAdapterConfiguration.getItemsByType<Any>() as MutableList<T>
+        return (typedKidAdapterConfiguration.getItemsByType<Any>() as List<T>).toMutableList()
     }
 }

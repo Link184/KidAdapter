@@ -13,7 +13,6 @@ import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 class TypedKidAdapterConfiguration {
     internal val viewTypes = mutableListOf<AdapterViewType<Any>>()
     internal var layoutManager: RecyclerView.LayoutManager? = null
-    private val tags = mutableMapOf<String, Int>()
 
     /**
      * Declare adapter view type.
@@ -25,8 +24,7 @@ class TypedKidAdapterConfiguration {
     fun withViewType(tag: String? = null, block: AdapterViewTypeConfiguration.() -> Unit) {
         val fromPosition =
             viewTypes.fold(0) { acc, adapterViewType -> acc + adapterViewType.configuration.getInternalItems().size }
-        viewTypes.add(AdapterViewType(fromPosition, block))
-        tag?.let { tags.put(it, viewTypes.lastIndex) }
+        viewTypes.add(AdapterViewType(tag, fromPosition, block))
     }
 
     /**
@@ -36,7 +34,7 @@ class TypedKidAdapterConfiguration {
      */
 
     @ConfigurationDsl
-    infix fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {
+    fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {
         layoutManager = block()
     }
 
@@ -46,7 +44,7 @@ class TypedKidAdapterConfiguration {
      * @return typed adapter configuration transformed from single adapter configuration
      */
     @ConfigurationDsl
-    infix fun fromSimpleConfiguration(block: SingleKidAdapterConfiguration<*>.() -> Unit): TypedKidAdapterConfiguration {
+    fun fromSimpleConfiguration(block: SingleKidAdapterConfiguration<*>.() -> Unit): TypedKidAdapterConfiguration {
         return TypedKidAdapterConfiguration().apply {
             val adapterConfiguration = SingleKidAdapterConfiguration<Any>().apply(block)
             withLayoutManager { adapterConfiguration.layoutManager }
@@ -86,7 +84,10 @@ class TypedKidAdapterConfiguration {
      * Get [AdapterViewType] by given tag.
      */
     internal fun getViewTypeByTag(tag: String): AdapterViewType<Any> {
-        tags[tag]?.let { return viewTypes[it] }
+        viewTypes
+            .filter { it.tag != null }
+            .firstOrNull { it.tag == tag }
+            ?.let { return it }
         throw UndeclaredTag(tag)
     }
 
