@@ -12,6 +12,7 @@ view types. You can easily maintain, update, move, swap, remove or add new view 
 Bonus: Almost all logic work with `DiffUtil`
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter)
+[![Build Status](https://travis-ci.com/Link184/KidAdapter.svg?branch=master)](https://travis-ci.com/Link184/KidAdapter)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-KidAdapter-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7397)
 
