@@ -9,7 +9,7 @@ A kotlin dsl mechanism to simplify and reduce boilerplate logic of a `RecyclerVi
 With KidAdapter you can use all power of kotlin dsl to avoid wired standard implementation of `RecyclerView.Adapter` 
 view types. You can easily maintain, update, move, swap, remove or add new view types using dsl code blocks. 
 
-Bonus: Almost all logic work with `DiffUtil`
+Bonus: Almost all logic works with `DiffUtil`
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter)
 [![Build Status](https://travis-ci.com/Link184/KidAdapter.svg?branch=master)](https://travis-ci.com/Link184/KidAdapter)
@@ -23,7 +23,7 @@ Gradle
 Gradle:
 
 ```gradle
-implementation 'com.link184:kid-adapter:1.1.0'
+implementation 'com.link184:kid-adapter:1.1.1'
 ```
 
 Samples
