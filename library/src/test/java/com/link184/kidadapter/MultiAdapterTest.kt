@@ -102,7 +102,7 @@ class MultiAdapterTest {
         val topList = mutableListOf("x", "y", "z")
         val bottomList = mutableListOf(11, 22, 33, 44)
 
-        adapter.update {
+        adapter update {
             insertTop(topList)
             insertBottom(bottomList)
         }
@@ -116,7 +116,7 @@ class MultiAdapterTest {
 
         resetSpys()
         val removeItems = mutableListOf("x", "y")
-        adapter.update {
+        adapter update {
             removeItems(removeItems)
         }
 
@@ -128,7 +128,7 @@ class MultiAdapterTest {
         resetSpys()
         val insertList = mutableListOf("insert1", "insert2")
         val insertIndex = 2
-        adapter.update {
+        adapter update {
             insert(insertIndex, insertList)
         }
 
@@ -137,7 +137,7 @@ class MultiAdapterTest {
         assertTrue { stringItems[insertIndex] == insertList.first() }
 
         resetSpys()
-        adapter.update {
+        adapter update {
             removeAll<String>()
             removeAll<Int>()
             removeAll<Any>()
@@ -145,5 +145,49 @@ class MultiAdapterTest {
         activityController.stop().create().start().visible()
 
         assertTrue { adapter.itemCount == 0 }
+    }
+
+    @Test
+    fun t3_viewTypeAdapterSwapTest() {
+        val adapter = populateRecyclerView()
+        val newList = mutableListOf<Short>(1, 2, 3, 4, 5)
+        adapter restructure {
+            insertBottom("shortList") {
+                withItems(newList.toMutableList())
+                withLayoutResId(android.R.layout.list_content)
+            }
+        }
+        adapter update {
+            swap<Short>(0, 3)
+        }
+
+        activityController.stop().create().start().visible()
+
+        assertTrue {
+            val firstItem = adapter.getItemsByType<Short>("shortList")[0]
+            val secondItem = adapter.getItemsByType<Short>("shortList")[3]
+            firstItem == newList[3] && secondItem == newList[0]
+        }
+
+        adapter restructure {
+            insertBottom {
+                withItem(7.toShort())
+                withLayoutResId(android.R.layout.list_content)
+            }
+            insertTop {
+                withItem(8.toShort())
+                withLayoutResId(android.R.layout.list_content)
+            }
+        }
+
+        adapter update {
+            swap<Short>(1, 4, "shortList")
+        }
+
+        assertTrue {
+            val firstItem = adapter.getItemsByType<Short>("shortList")[1]
+            val secondItem = adapter.getItemsByType<Short>("shortList")[4]
+            firstItem == newList[4] && secondItem == newList[1]
+        }
     }
 }

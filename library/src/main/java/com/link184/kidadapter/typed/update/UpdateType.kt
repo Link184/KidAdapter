@@ -10,6 +10,8 @@ sealed class UpdateType {
     object ReplaceAll : UpdateType()
     object Remove : UpdateType()
 
+    class Swap(val firstIndex: Int, val secondIndex: Int) : UpdateType()
+
     fun resolveIndex(currentList: MutableList<*>): Int {
         if (this is Insert.InsertBottom) {
             return currentList.size

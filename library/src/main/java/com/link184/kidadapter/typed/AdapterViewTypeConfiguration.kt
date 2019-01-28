@@ -106,5 +106,9 @@ class AdapterViewTypeConfiguration {
         internalItems.clear()
     }
 
+    internal fun swapInternalItems(firstIndex: Int, secondIndex: Int) {
+        diffCallback = internalItems.swap(firstIndex, secondIndex)
+    }
+
     internal fun getInternalItems() = internalItems
 }
