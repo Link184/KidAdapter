@@ -23,7 +23,7 @@ Gradle
 Gradle:
 
 ```gradle
-implementation 'com.link184:kid-adapter:1.1.1'
+implementation 'com.link184:kid-adapter:1.1.5'
 ```
 
 Samples
@@ -43,6 +43,10 @@ val adapter = recyclerView.setUp<MyObject> { //an extension on RecyclerView whic
         this.setBackgroundColor(getRandomColor())
         stringName.text = item.name //string view is a synthetic inflated view from bind function context 
         setOnClickListener { ... } //click listener on ViewHolder.itemView
+    }
+    // if you need adapter position use this method instead of "bind"
+    bindIndexed { item, index -> // item - current item, index - adapterPosition
+        ...
     }
 }
 
@@ -76,6 +80,10 @@ val adapter = recyclerView.setUp {
         bind<String> { // this - is adapter view hoder itemView, item - current item
             stringName.text = it
             setOnClickListener { ... } //click listener on ViewHolder.itemView
+        }
+        // if you need adapter position use this method instead of "bind"
+        bindIndexed { item, index -> // item - current item, index - adapterPosition
+            ...
         }
     }
 
