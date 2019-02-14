@@ -3,12 +3,13 @@ package com.link184.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
+import android.widget.Toast
 import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_multi_type.*
 import kotlinx.android.synthetic.main.item_int.view.*
 import kotlinx.android.synthetic.main.item_text.view.*
 
-class MultiTypeActivity: AppCompatActivity() {
+class MultiTypeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,16 +20,22 @@ class MultiTypeActivity: AppCompatActivity() {
             withViewType {
                 withLayoutResId(R.layout.item_text)
                 withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
-                bind<String> {
-                    stringName.text = it
+                bind<String> { item, position ->
+                    stringName.text = item
+                    setOnClickListener {
+                        Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
             withViewType {
                 withLayoutResId(R.layout.item_int)
                 withItems(mutableListOf(8, 9, 10, 11, 12, 13))
-                bind<Int> {
-                    intName.text = it.toString()
+                bind<Int> { item, position ->
+                    intName.text = item.toString()
+                    setOnClickListener {
+                        Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

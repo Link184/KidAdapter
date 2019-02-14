@@ -50,8 +50,8 @@ class TypedKidAdapterConfiguration {
             withLayoutManager { adapterConfiguration.layoutManager }
             withViewType {
                 withItems(adapterConfiguration.items.newList)
-                bind<Any> {
-                    adapterConfiguration.bindHolder(this, it)
+                bind<Any> {item, position ->
+                    adapterConfiguration.bindHolder(this, item, position)
                 }
             }
         }

@@ -12,7 +12,7 @@ class AdapterViewTypeConfiguration {
     @LayoutRes
     var layoutResId: Int = -1
         private set
-    internal var bindHolder: View.(Any) -> Unit = {}
+    internal var bindHolder: View.(Any, Int) -> Unit = { item, position -> }
         private set
     var modelType: Class<*>? = null
     private var contentComparator: ((Any, Any) -> Boolean)? = null
@@ -85,8 +85,8 @@ class AdapterViewTypeConfiguration {
      * @param block is executed in [RecyclerView.ViewHolder.itemView] context
      */
     @BindDsl
-    fun <T> bind(block: View.(T) -> Unit) {
-        bindHolder = (block as View.(Any) -> Unit)
+    fun <T> bind(block: View.(T, Int) -> Unit) {
+        bindHolder = (block as View.(Any, Int) -> Unit)
     }
 
     /** INGORE IT */
