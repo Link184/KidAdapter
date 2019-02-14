@@ -16,7 +16,7 @@ class SingleKidAdapterConfiguration<T> {
     @LayoutRes
     internal var layoutResId: Int = -1
         private set
-    internal var bindHolder: View.(T) -> Unit = {}
+    internal var bindHolder: View.(T,Int) -> Unit = {item, i ->  }
         private set
     internal var contentComparator: ((T, T) -> Boolean)? = null
     internal var itemsComparator: ((T, T) -> Boolean)? = null
@@ -81,7 +81,7 @@ class SingleKidAdapterConfiguration<T> {
      * @param block is executed in [RecyclerView.ViewHolder.itemView] context
      */
     @BindDsl
-    fun bind(block: View.(T) -> Unit) {
+    fun bind(block: View.(T,Int) -> Unit) {
         this.bindHolder = block
     }
 

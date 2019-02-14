@@ -19,7 +19,7 @@ open class SingleKidAdapter<T> (private val configuration: SingleKidAdapterConfi
         val view = LayoutInflater.from(parent.context).inflate(configuration.layoutResId, parent, false)
         val viewHolder = object : BaseViewHolder<T>(view) {
             override fun bindView(item: T) {
-                configuration.bindHolder(itemView, item)
+                configuration.bindHolder(itemView, item, adapterPosition)
             }
         }
         val itemView = viewHolder.itemView
