@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.link184.kidadapter.ExtensionDsl
 import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
+import com.link184.kidadapter.typed.restructure.RestructureConfiguration
+import com.link184.kidadapter.typed.update.UpdateConfiguration
 
 open class TypedKidAdapter(
     private val typedKidAdapterConfiguration: TypedKidAdapterConfiguration
@@ -61,10 +63,22 @@ open class TypedKidAdapter(
         itemList.recycle()
     }
 
+    /**
+     * Restructure view types list.
+     * @param block restructuring logic here. View types are treated here like a simple list which can suffer
+     * consecutively changes of his items.
+     */
+    @ExtensionDsl
+    infix fun restructure(block: RestructureConfiguration.() -> Unit) {
+        RestructureConfiguration().apply(block).doUpdate(typedKidAdapterConfiguration)
+        this += typedKidAdapterConfiguration.getAllItems()
+        notifyDataSetChanged()
+    }
+
     fun <T> getItemsByType(tag: String? = null): MutableList<T> {
         if (tag != null) {
-            return typedKidAdapterConfiguration.getViewTypeByTag(tag).configuration.getInternalItems() as MutableList<T>
+            return (typedKidAdapterConfiguration.getViewTypeByTag(tag).configuration.getInternalItems() as List<T>).toMutableList()
         }
-        return typedKidAdapterConfiguration.getItemsByType<Any>() as MutableList<T>
+        return (typedKidAdapterConfiguration.getItemsByType<Any>() as List<T>).toMutableList()
     }
 }

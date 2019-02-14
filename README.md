@@ -4,7 +4,12 @@
 # KidAdapter
 RecyclerView adapter for kids.
 
-A kotlin dsl mechanism to simplify and reduce boilerplate logic of a RecyclerView.Adapter
+A kotlin dsl mechanism to simplify and reduce boilerplate logic of a `RecyclerView.Adapter`. 
+
+With KidAdapter you can use all power of kotlin dsl to avoid wired standard implementation of `RecyclerView.Adapter` 
+view types. You can easily maintain, update, move, swap, remove or add new view types using dsl code blocks. 
+
+Bonus: Almost all logic works with `DiffUtil`
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter)
 [![Build Status](https://travis-ci.com/Link184/KidAdapter.svg?branch=master)](https://travis-ci.com/Link184/KidAdapter)
@@ -18,7 +23,7 @@ Gradle
 Gradle:
 
 ```gradle
-implementation 'com.link184:kid-adapter:1.0.6'
+implementation 'com.link184:kid-adapter:1.1.1'
 ```
 
 Samples
@@ -107,7 +112,28 @@ adapter update {
     removeItems(mutableListOf("one", "thirteen"))
     removeAll()
 }
+
+adapter restructure {
+    insert(2, "tag") {
+        withItems(items)
+        withLayoutResId(android.R.layout.list_content)
+        bind<Int> {
+            println("We are here $it")
+        }
+    }
+    insertTop("top1Tag") { ... }
+    insert(3, "insertAt3Tag") { ... }
+    insertBottom("bottom1Tag") { ... }
+    replace("top1Tag") { ... }
+    swap(0, 3)
+    removeAll()
+    insertTop("top1Tag") { ... }
+}
 ```
+
+Proguard
+-------
+Don't worry about that.
 
 License
 -------

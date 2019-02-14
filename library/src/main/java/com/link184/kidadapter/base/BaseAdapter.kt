@@ -1,6 +1,9 @@
 package com.link184.kidadapter.base
 
 import android.support.v7.widget.RecyclerView
+/* ktlint-disable no-wildcard-imports */
+import java.util.*
+/* ktlint-enable no-wildcard-imports */
 
 abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: KidList<T>) : RecyclerView.Adapter<H>() {
     constructor(itemList: MutableList<T>) : this(KidList(itemList))
@@ -121,5 +124,16 @@ abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: Kid
     open fun clear() {
         itemList.clear()
         notifyDataSetChanged()
+    }
+
+    /**
+     * Swaps 2 items between them
+     * @param firstIndex first index to swap
+     * @param secondIndex second index to swap
+     */
+    open fun swap(firstIndex: Int, secondIndex: Int) {
+        Collections.swap(itemList, firstIndex, secondIndex)
+        notifyItemChanged(firstIndex)
+        notifyItemChanged(secondIndex)
     }
 }

@@ -1,5 +1,9 @@
 package com.link184.kidadapter.base
 
+/* ktlint-disable no-wildcard-imports */
+import java.util.*
+/* ktlint-enable no-wildcard-imports */
+
 open class KidList<E>(internal var newList: MutableList<E> = mutableListOf()) : List<E> {
     private var oldList: MutableList<E>? = null
 
@@ -100,6 +104,12 @@ open class KidList<E>(internal var newList: MutableList<E> = mutableListOf()) : 
     internal fun set(index: Int, element: E): KidDiffUtilCallback<E> {
         cacheOldItems()
         newList[index] = element
+        return getDiffUtils()
+    }
+
+    internal fun swap(firstIndex: Int, secondIndex: Int): KidDiffUtilCallback<E> {
+        cacheOldItems()
+        Collections.swap(newList, firstIndex, secondIndex)
         return getDiffUtils()
     }
 }

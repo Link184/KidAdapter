@@ -40,6 +40,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
                     }
                 }
             }
+
             withViewType(SECOND_STRING_TAG) {
                 withLayoutResId(R.layout.item_text)
                 withItems(mutableListOf("eight", "nine", "ten", "eleven", "twelve"))
@@ -72,10 +73,16 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
 
         recyclerView.postDelayed({
             adapter update {
+                swap<String>(2, 4, FIRST_STRING_TAG)
+            }
+        }, 8_000)
+
+        recyclerView.postDelayed({
+            adapter update {
                 removeAll<String>()
                 removeAll<Int>()
                 removeAll<String>(SECOND_STRING_TAG)
             }
-        }, 12_000)
+        }, 14_000)
     }
 }
