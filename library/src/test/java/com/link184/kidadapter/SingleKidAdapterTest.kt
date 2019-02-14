@@ -6,6 +6,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
 import org.mockito.internal.verification.VerificationModeFactory.times
 import org.robolectric.Robolectric
@@ -26,11 +27,19 @@ class SingleKidAdapterTest {
     fun t1_simpleAdapterPopulateTest() {
         val items = mutableListOf("a", "b", "c", "d")
         val bindFunction: SingleKidAdapterConfiguration<String>.(String) -> Unit = { println(it) }
+        val bindFunctionIndexed: SingleKidAdapterConfiguration<String>.(String, Int) -> Unit = { item, index ->
+            println("$item $index")
+        }
         val bindFunctionSpy = spy(bindFunction)
+        val bindIndexedFunctionSpy = spy(bindFunctionIndexed)
 
         activityController.get().recyclerView.setUp<String> {
             withItems(items)
             withLayoutResId(android.R.layout.list_content)
+            bindIndexed { item, index ->
+                assertTrue(items.contains(item))
+                bindIndexedFunctionSpy(item, index)
+            }
             bind {
                 assertTrue(items.contains(it))
                 bindFunctionSpy(it)
@@ -39,5 +48,6 @@ class SingleKidAdapterTest {
 
         activityController.create().start().visible()
         Mockito.verify(bindFunctionSpy, times(items.size)).invoke(anyNullableObject(), anyNullableObject())
+        Mockito.verify(bindIndexedFunctionSpy, times(items.size)).invoke(anyNullableObject(), anyNullableObject(), anyInt())
     }
 }

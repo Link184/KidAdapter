@@ -27,7 +27,8 @@ open class TypedKidAdapter(
         val view = LayoutInflater.from(parent.context).inflate(adapterViewType.configuration.layoutResId, parent, false)
         val viewHolder = object : BaseViewHolder<Any>(view) {
             override fun bindView(item: Any) {
-                adapterViewType.configuration.bindHolder(itemView, item, adapterPosition)
+                adapterViewType.configuration.bindHolderIndexed(itemView, item, adapterPosition)
+                adapterViewType.configuration.bindHolder(itemView, item)
             }
         }
         val itemView = viewHolder.itemView

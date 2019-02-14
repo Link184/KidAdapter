@@ -16,7 +16,9 @@ class SingleKidAdapterConfiguration<T> {
     @LayoutRes
     internal var layoutResId: Int = -1
         private set
-    internal var bindHolder: View.(T,Int) -> Unit = {item, i ->  }
+    internal var bindHolderIndexed: View.(T, Int) -> Unit = { item, i -> }
+        private set
+    internal var bindHolder: View.(T) -> Unit = { }
         private set
     internal var contentComparator: ((T, T) -> Boolean)? = null
     internal var itemsComparator: ((T, T) -> Boolean)? = null
@@ -79,16 +81,30 @@ class SingleKidAdapterConfiguration<T> {
     /**
      * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
      * @param block is executed in [RecyclerView.ViewHolder.itemView] context
+     * @param block.item item from adapter list at adapter position, equivalent of itemsList.get(adapterPosition]
+     * @param block.index adapterPosition
      */
     @BindDsl
-    fun bind(block: View.(T,Int) -> Unit) {
+    fun bindIndexed(block: View.(item: T, index: Int) -> Unit) {
+        this.bindHolderIndexed = block
+    }
+
+    /**
+     * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
+     * @param block is executed in [RecyclerView.ViewHolder.itemView] context
+     * @param block.item item from adapter list at adapter position, equivalent of itemsList.get(adapterPosition]
+     */
+    @BindDsl
+    fun bind(block: View.(T) -> Unit) {
         this.bindHolder = block
     }
 
     internal fun validate() {
         when {
-            layoutResId == -1 && items.isNotEmpty() -> throw UndefinedLayout("Adapter layout is not set, " +
-                    "please declare it with withLayoutResId() function")
+            layoutResId == -1 && items.isNotEmpty() -> throw UndefinedLayout(
+                "Adapter layout is not set, " +
+                        "please declare it with withLayoutResId() function"
+            )
         }
     }
 }

@@ -20,7 +20,7 @@ class MultiTypeActivity : AppCompatActivity() {
             withViewType {
                 withLayoutResId(R.layout.item_text)
                 withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
-                bind<String> { item, position ->
+                bindIndexed<String> { item, position ->
                     stringName.text = item
                     setOnClickListener {
                         Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
@@ -31,7 +31,7 @@ class MultiTypeActivity : AppCompatActivity() {
             withViewType {
                 withLayoutResId(R.layout.item_int)
                 withItems(mutableListOf(8, 9, 10, 11, 12, 13))
-                bind<Int> { item, position ->
+                bindIndexed<Int> { item, position ->
                     intName.text = item.toString()
                     setOnClickListener {
                         Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()

@@ -3,7 +3,6 @@ package com.link184.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
 import android.widget.Toast
 import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_multi_type_with_tags.*
@@ -23,7 +22,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
             withViewType(FIRST_STRING_TAG) {
                 withLayoutResId(R.layout.item_text)
                 withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
-                bind<String> { item, position ->
+                bindIndexed<String> { item, position ->
                     stringName.text = item
                     setOnClickListener {
                         Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
@@ -33,7 +32,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
             withViewType {
                 withLayoutResId(R.layout.item_int)
                 withItems(mutableListOf(1, 2, 3, 4, 5, 6))
-                bind<Int> { item, position ->
+                bindIndexed<Int> { item, position ->
                     intName.text = item.toString()
                     setOnClickListener {
                         Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
@@ -44,7 +43,7 @@ class MultiTypeWithTagsActivity : AppCompatActivity() {
             withViewType(SECOND_STRING_TAG) {
                 withLayoutResId(R.layout.item_text)
                 withItems(mutableListOf("eight", "nine", "ten", "eleven", "twelve"))
-                bind<String> { item, position ->
+                bindIndexed<String> { item, position ->
                     stringName.text = item
                     setOnClickListener {
                         Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()

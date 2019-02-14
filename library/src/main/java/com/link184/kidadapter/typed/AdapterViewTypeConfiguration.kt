@@ -12,7 +12,8 @@ class AdapterViewTypeConfiguration {
     @LayoutRes
     var layoutResId: Int = -1
         private set
-    internal var bindHolder: View.(Any, Int) -> Unit = { item, position -> }
+    internal var bindHolderIndexed: View.(Any, Int) -> Unit = { _, _ -> }
+    internal var bindHolder: View.(Any) -> Unit = { }
         private set
     var modelType: Class<*>? = null
     private var contentComparator: ((Any, Any) -> Boolean)? = null
@@ -83,10 +84,21 @@ class AdapterViewTypeConfiguration {
     /**
      * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
      * @param block is executed in [RecyclerView.ViewHolder.itemView] context
+     * @param block.item item from adapter list at adapter position, equivalent of itemsList.get(adapterPosition]
+     * @param block.index adapterPosition
      */
     @BindDsl
-    fun <T> bind(block: View.(T, Int) -> Unit) {
-        bindHolder = (block as View.(Any, Int) -> Unit)
+    fun <T> bindIndexed(block: View.(T, Int) -> Unit) {
+        bindHolderIndexed = (block as View.(Any, Int) -> Unit)
+    }
+    /**
+     * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
+     * @param block is executed in [RecyclerView.ViewHolder.itemView] context
+     * @param block.item item from adapter list at adapter position, equivalent of itemsList.get(adapterPosition]
+     */
+    @BindDsl
+    fun <T> bind(block: View.(T) -> Unit) {
+        bindHolder = (block as View.(Any) -> Unit)
     }
 
     /** INGORE IT */

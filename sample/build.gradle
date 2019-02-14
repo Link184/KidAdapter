@@ -38,5 +38,7 @@ dependencies {
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
+    implementation 'com.link184:common-extensions:1.0.1'
+
     implementation project(':library')
 }

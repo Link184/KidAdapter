@@ -19,7 +19,7 @@ class SingleTypeActivity : AppCompatActivity() {
         val adapter = recyclerView.setUp<String> {
             withLayoutResId(R.layout.item_text)
             withItems(mutableListOf("one", "two", "three", "four", "five", "six", "seven"))
-            bind { item, position ->
+            bindIndexed { item, position ->
                 setBackgroundColor(getRandomColor())
                 stringName.text = item
                 setOnClickListener {
