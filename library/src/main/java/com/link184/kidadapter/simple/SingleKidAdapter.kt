@@ -9,8 +9,8 @@ import com.link184.kidadapter.base.BaseAdapter
 import com.link184.kidadapter.base.BaseViewHolder
 import com.link184.kidadapter.base.KidDiffUtilCallback
 
-open class SingleKidAdapter<T> (private val configuration: SingleKidAdapterConfiguration<T>)
-    : BaseAdapter<T, BaseViewHolder<T>>(configuration.items) {
+open class SingleKidAdapter<T>(private val configuration: SingleKidAdapterConfiguration<T>) :
+    BaseAdapter<T, BaseViewHolder<T>>(configuration.items) {
     init {
         configuration.validate()
     }
@@ -40,44 +40,53 @@ open class SingleKidAdapter<T> (private val configuration: SingleKidAdapterConfi
         notifyDataSetChanged()
     }
 
-    override operator fun plus(itemList: List<T>) {
+    override operator fun plus(itemList: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
         this.itemList.addAll(itemList).also(::dispatchUpdates)
+        return this
     }
 
-    override operator fun plus(item: T) {
+    override operator fun plus(item: T): BaseAdapter<T, BaseViewHolder<T>> {
         itemList.add(item).also(::dispatchUpdates)
+        return this
     }
 
-    override fun add(index: Int, item: T) {
+    override fun add(index: Int, item: T): BaseAdapter<T, BaseViewHolder<T>> {
         itemList.add(index, item).also(::dispatchUpdates)
+        return this
     }
 
-    override fun addAll(items: MutableList<T>) {
+    override fun addAll(items: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         itemList.addAll(items).also(::dispatchUpdates)
+        return this
     }
 
-    override fun addAll(index: Int, items: MutableList<T>) {
+    override fun addAll(index: Int, items: MutableList<T>): BaseAdapter<T, BaseViewHolder<T>> {
         itemList.addAll(index, items).also(::dispatchUpdates)
+        return this
     }
 
     override operator fun set(index: Int, item: T) {
         itemList.set(index, item).also(::dispatchUpdates)
     }
 
-    override fun insert(index: Int, itemList: List<T>) {
+    override fun insert(index: Int, itemList: List<T>): BaseAdapter<T, BaseViewHolder<T>> {
         this.itemList.addAll(index, itemList).also(::dispatchUpdates)
+        return this
     }
 
-    override operator fun minus(index: Int) {
+    override fun remove(index: Int): BaseAdapter<T, BaseViewHolder<T>> {
         itemList.removeAt(index).also(::dispatchUpdates)
+        return this
     }
 
-    override operator fun minus(item: T) {
+    override operator fun minus(item: T): BaseAdapter<T, BaseViewHolder<T>> {
         itemList.remove(item).also(::dispatchUpdates)
+        return this
     }
 
-    override fun clear() {
+    override fun clear(): BaseAdapter<T, BaseViewHolder<T>> {
         itemList.clear().also(::dispatchUpdates)
+        return this
     }
 
     private fun dispatchUpdates(diffUtilCallback: KidDiffUtilCallback<T>) {

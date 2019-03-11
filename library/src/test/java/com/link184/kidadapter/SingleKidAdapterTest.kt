@@ -12,6 +12,7 @@ import org.mockito.internal.verification.VerificationModeFactory.times
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
@@ -48,6 +49,34 @@ class SingleKidAdapterTest {
 
         activityController.create().start().visible()
         Mockito.verify(bindFunctionSpy, times(items.size)).invoke(anyNullableObject(), anyNullableObject())
-        Mockito.verify(bindIndexedFunctionSpy, times(items.size)).invoke(anyNullableObject(), anyNullableObject(), anyInt())
+        Mockito.verify(bindIndexedFunctionSpy, times(items.size))
+            .invoke(anyNullableObject(), anyNullableObject(), anyInt())
+    }
+
+    @Test
+    fun t2_operationsTest() {
+        val items = mutableListOf(1, 2, 3, 4, 5)
+        val initialItemsSize = items.size
+
+        val adapter = activityController.get().recyclerView.setUp<Int> {
+            withItems(items)
+            withLayoutResId(android.R.layout.list_content)
+            bindIndexed { item, index ->
+                assertTrue(items.contains(item))
+            }
+            bind {
+                assertTrue(items.contains(it))
+            }
+        }
+
+        adapter + 6 + 7 + 8
+        assertEquals(items.size, initialItemsSize + 3)
+
+        adapter + 9 - 4 - 1
+        assertEquals(items.size, initialItemsSize + 3 + 1 - 2)
+        assertTrue {
+            !items.contains(1)
+            !items.contains(4)
+        }
     }
 }
