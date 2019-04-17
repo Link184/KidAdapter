@@ -24,8 +24,8 @@ android:
 
 sudo: true
 
-after_success:
-  - .buildscript/deploy_snapshot.sh
+#after_success:
+#  - .buildscript/deploy_snapshot.sh
 
 licenses:
   - android-sdk-preview-license-.+
