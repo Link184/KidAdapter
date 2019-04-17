@@ -44,11 +44,20 @@ class SingleKidAdapterConfiguration<T> {
     /**
      * Set [androidx.recyclerview.widget.RecyclerView.LayoutManager] of a current [RecyclerView].
      * By default it is a vertical [androidx.recyclerview.widget.LinearLayoutManager]
-     * @param block configure your layout manager here
      */
     @ConfigurationDsl
     fun withLayoutManager(layoutManager: RecyclerView.LayoutManager) {
         this.layoutManager = layoutManager
+    }
+
+    /**
+     * Set [RecyclerView.LayoutManager] of a current [RecyclerView].
+     * By default it is a vertical [LinearLayoutManager]
+     * @param block configure your layout manager here
+     */
+    @ConfigurationDsl
+    fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {
+        layoutManager = block()
     }
 
     /**
