@@ -23,7 +23,7 @@ Gradle
 Gradle:
 
 ```gradle
-implementation 'com.link184:kid-adapter:1.2.0'
+implementation 'com.link184:kid-adapter:1.2.1'
 ```
 
 Samples
