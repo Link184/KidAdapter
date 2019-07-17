@@ -1,7 +1,7 @@
 package com.link184.kidadapter.typed
 
-import android.support.annotation.LayoutRes
 import android.view.View
+import androidx.annotation.LayoutRes
 import com.link184.kidadapter.BindDsl
 import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.base.KidDiffUtilCallback

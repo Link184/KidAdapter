@@ -1,6 +1,6 @@
 package com.link184.kidadapter.typed
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.exceptions.UndeclaredTag
 import com.link184.kidadapter.exceptions.UndefinedLayout

@@ -2,8 +2,8 @@ package com.link184.sample
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_single_type.*
 import kotlinx.android.synthetic.main.item_text.view.*

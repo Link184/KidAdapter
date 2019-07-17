@@ -2,7 +2,7 @@ package com.link184.kidadapter
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerViewActivity : Activity() {
     val recyclerView by lazy {

@@ -1,8 +1,8 @@
 package com.link184.kidadapter.simple
 
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.BindDsl
 import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.base.KidList

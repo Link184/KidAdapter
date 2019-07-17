@@ -1,6 +1,6 @@
 package com.link184.kidadapter.base
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 /* ktlint-disable no-wildcard-imports */
 import java.util.*
 

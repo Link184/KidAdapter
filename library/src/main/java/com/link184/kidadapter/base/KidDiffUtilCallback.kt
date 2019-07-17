@@ -1,6 +1,6 @@
 package com.link184.kidadapter.base
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 
 internal class KidDiffUtilCallback<T>(
     private val oldItems: MutableList<T>,

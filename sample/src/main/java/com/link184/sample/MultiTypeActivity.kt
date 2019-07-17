@@ -1,9 +1,9 @@
 package com.link184.sample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.link184.kidadapter.setUp
 import kotlinx.android.synthetic.main.activity_multi_type.*
 import kotlinx.android.synthetic.main.item_int.view.*
@@ -15,7 +15,12 @@ class MultiTypeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multi_type)
 
-        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         recyclerView.setUp {
             withViewType {
                 withLayoutResId(R.layout.item_text)
