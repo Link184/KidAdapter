@@ -14,5 +14,6 @@ class MainActivity : AppCompatActivity() {
         multiTypeButton.setOnClickListener { startActivity(Intent(this, MultiTypeActivity::class.java)) }
         singleTypeButton.setOnClickListener { startActivity(Intent(this, SingleTypeActivity::class.java)) }
         multiTypeWithTagsButton.setOnClickListener { startActivity(Intent(this, MultiTypeWithTagsActivity::class.java)) }
+        viewPager2Adapter.setOnClickListener { startActivity(Intent(this, ViewPagerActivity::class.java)) }
     }
 }

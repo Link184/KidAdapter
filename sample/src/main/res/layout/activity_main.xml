@@ -21,4 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Multi Type With Tags and Updates"/>
+    <Button
+        android:id="@+id/viewPager2Adapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View_Pager2 adapter"/>
 </LinearLayout>

@@ -20,6 +20,7 @@
         <activity android:name=".MultiTypeActivity" />
         <activity android:name=".SingleTypeActivity" />
         <activity android:name=".MultiTypeWithTagsActivity" />
+        <activity android:name=".ViewPagerActivity"/>
     </application>
 
 </manifest>
