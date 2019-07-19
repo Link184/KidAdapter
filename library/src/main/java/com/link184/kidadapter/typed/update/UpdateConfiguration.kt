@@ -22,7 +22,7 @@ class UpdateConfiguration {
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
     @ConfigurationDsl
-    inline fun <reified T> insert(index: Int, items: MutableList<T>, tag: String? = null) {
+    inline fun <reified T> insert(index: Int, items: List<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertMiddle(index)))
     }
 
@@ -59,7 +59,7 @@ class UpdateConfiguration {
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
     @ConfigurationDsl
-    inline fun <reified T> insertTop(items: MutableList<T>, tag: String? = null) {
+    inline fun <reified T> insertTop(items: List<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertTop))
     }
 
@@ -83,7 +83,7 @@ class UpdateConfiguration {
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
     @ConfigurationDsl
-    inline fun <reified T> insertBottom(items: MutableList<T>, tag: String? = null) {
+    inline fun <reified T> insertBottom(items: List<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Insert.InsertBottom))
     }
 
@@ -95,7 +95,7 @@ class UpdateConfiguration {
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
     @ConfigurationDsl
-    inline fun <reified T> replaceAllItems(items: MutableList<T>, tag: String? = null) {
+    inline fun <reified T> replaceAllItems(items: List<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.ReplaceAll))
     }
 
@@ -107,7 +107,7 @@ class UpdateConfiguration {
      * @param tag nullable tag. It must been declared on adapter initialization.
      */
     @ConfigurationDsl
-    inline fun <reified T> removeItems(items: MutableList<T>, tag: String? = null) {
+    inline fun <reified T> removeItems(items: List<T>, tag: String? = null) {
         updateQueue.add(UpdateItem(T::class.java, tag, items, UpdateType.Remove))
     }
 
