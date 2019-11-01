@@ -91,6 +91,11 @@ open class SingleKidAdapter<T>(private val configuration: SingleKidAdapterConfig
         return this
     }
 
+    infix fun update(block: (MutableList<T>) -> Unit): BaseAdapter<T, BaseViewHolder<T>> {
+        itemList.update(block).also(::dispatchUpdates)
+        return this
+    }
+
     private fun dispatchUpdates(diffUtilCallback: KidDiffUtilCallback<T>) {
         with(diffUtilCallback) {
             contentComparator = configuration.contentComparator

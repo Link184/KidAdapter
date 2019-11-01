@@ -13,6 +13,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
@@ -78,5 +79,31 @@ class SingleKidAdapterTest {
             !items.contains(1)
             !items.contains(4)
         }
+    }
+
+    @Test
+    fun t3_updateAdapterTest() {
+        val items = mutableListOf(1, 2, 3, 4, 5)
+        val initialItemsSize = items.size
+
+        val adapter = activityController.get().recyclerView.setUp<Int> {
+            withItems(items)
+            withLayoutResId(android.R.layout.list_content)
+            bindIndexed { item, index ->
+                assertTrue(items.contains(item))
+            }
+            bind {
+                assertTrue(items.contains(it))
+            }
+        }
+
+        adapter update {
+            it.add(6)
+            it.add(7)
+            it.remove(2)
+        }
+
+        assertNotEquals(initialItemsSize, adapter.itemCount)
+        assertTrue { adapter.getAllItems().indexOf(3) == 1 }
     }
 }

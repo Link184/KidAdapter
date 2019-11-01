@@ -112,4 +112,10 @@ open class KidList<E>(internal var newList: MutableList<E> = mutableListOf()) : 
         Collections.swap(newList, firstIndex, secondIndex)
         return getDiffUtils()
     }
+
+    internal fun update(block: (MutableList<E>) -> Unit): KidDiffUtilCallback<E> {
+        cacheOldItems()
+        block(newList)
+        return getDiffUtils()
+    }
 }
