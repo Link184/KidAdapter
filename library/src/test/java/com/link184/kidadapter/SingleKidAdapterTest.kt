@@ -86,6 +86,9 @@ class SingleKidAdapterTest {
         val items = mutableListOf(1, 2, 3, 4, 5)
         val initialItemsSize = items.size
 
+        val bindFunction: SingleKidAdapterConfiguration<Int>.(Int) -> Unit = { println(it) }
+        val bindFunctionSpy = spy(bindFunction)
+
         val adapter = activityController.get().recyclerView.setUp<Int> {
             withItems(items)
             withLayoutResId(android.R.layout.list_content)
@@ -94,15 +97,24 @@ class SingleKidAdapterTest {
             }
             bind {
                 assertTrue(items.contains(it))
+                bindFunctionSpy(it)
             }
         }
+
+        activityController.create().start().visible()
+
+        Mockito.verify(bindFunctionSpy, times(initialItemsSize)).invoke(anyNullableObject(), anyInt())
 
         adapter update {
             it.add(6)
             it.add(7)
             it.remove(2)
+            it[0] = 1
         }
 
+        activityController.create().start().visible()
+
+        Mockito.verify(bindFunctionSpy, times(initialItemsSize + 3)).invoke(anyNullableObject(), anyInt())
         assertNotEquals(initialItemsSize, adapter.itemCount)
         assertTrue { adapter.getAllItems().indexOf(3) == 1 }
     }
