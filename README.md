@@ -24,7 +24,7 @@ Gradle:
 
 ```gradle
 // only for androidx projects
-implementation 'com.link184:kid-adapter:1.2.7'
+implementation 'com.link184:kid-adapter:1.2.9'
 
 // for projects with android.support.*
 implementation 'com.link184:kid-adapter:1.2.2'

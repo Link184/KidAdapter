@@ -147,4 +147,10 @@ abstract class BaseAdapter<T, H : BaseViewHolder<T>>(protected var itemList: Kid
         notifyItemChanged(secondIndex)
         return this
     }
+
+    /**
+     * Get copy of items in a non mutable list
+     * Changes on result list will not affect the items from adater.
+     */
+    fun getAllItems(): List<T> = itemList.toList()
 }
