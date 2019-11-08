@@ -1,5 +1,6 @@
 package com.link184.kidadapter.simple
 
+import android.content.Context
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,8 @@ class SingleKidAdapterConfiguration<T> {
         private set
     @LayoutRes
     internal var layoutResId: Int = -1
+        private set
+    internal var viewInitializer: (Context.() -> View)? = null
         private set
     internal var bindHolderIndexed: View.(T, Int) -> Unit = { item, i -> }
         private set
@@ -70,6 +73,16 @@ class SingleKidAdapterConfiguration<T> {
     }
 
     /**
+     * Set view which will be bounded to actual view type
+     * @param viewInitializer view initialization lambda function.
+     * Initialize your view with [Context] from this lambda.
+     */
+    @ConfigurationDsl
+    fun withLayoutView(viewInitializer: Context.() -> View) {
+        this.viewInitializer = viewInitializer
+    }
+
+    /**
      * Equivalent to [DiffUtil.Callback.areContentsTheSame]. Method call is optional, by default in compare objects
      * by equals, if you want another behavior then please implement it here.
      */
@@ -110,9 +123,13 @@ class SingleKidAdapterConfiguration<T> {
 
     internal fun validate() {
         when {
-            layoutResId == -1 && items.isNotEmpty() -> throw UndefinedLayout(
+            layoutResId == -1 && viewInitializer == null && items.isNotEmpty() -> throw UndefinedLayout(
                 "Adapter layout is not set, " +
-                        "please declare it with withLayoutResId() function"
+                        "please declare it with withLayoutResId() or withLayoutView() function"
+            )
+            viewInitializer != null && layoutResId != -1 -> throw UndefinedLayout(
+                "The layout is defined through both functions (withLayoutResId and withLayoutView)" +
+                        "can`t decide which layout to pick"
             )
         }
     }

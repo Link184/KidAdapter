@@ -3,7 +3,6 @@ package com.link184.kidadapter.typed
 import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.exceptions.UndeclaredTag
-import com.link184.kidadapter.exceptions.UndefinedLayout
 import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 
@@ -114,10 +113,6 @@ class TypedKidAdapterConfiguration {
     }
 
     internal fun validate() {
-        when {
-            viewTypes.firstOrNull { it.configuration.layoutResId == -1 } != null -> throw UndefinedLayout(
-                "Adapter layout is not set, please declare it for each AdapterViewType with withLayoutResId() function"
-            )
-        }
+        viewTypes.forEach { it.configuration.validate() }
     }
 }

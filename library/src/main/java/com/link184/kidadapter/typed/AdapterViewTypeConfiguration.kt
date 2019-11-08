@@ -1,16 +1,20 @@
 package com.link184.kidadapter.typed
 
+import android.content.Context
 import android.view.View
 import androidx.annotation.LayoutRes
 import com.link184.kidadapter.BindDsl
 import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.base.KidDiffUtilCallback
 import com.link184.kidadapter.base.KidList
+import com.link184.kidadapter.exceptions.UndefinedLayout
 
 class AdapterViewTypeConfiguration {
     private var internalItems: KidList<Any> = KidList()
     @LayoutRes
     var layoutResId: Int = -1
+        private set
+    var viewInitializer: (Context.() -> View)? = null
         private set
     internal var bindHolderIndexed: View.(Any, Int) -> Unit = { _, _ -> }
     internal var bindHolder: View.(Any) -> Unit = { }
@@ -82,6 +86,16 @@ class AdapterViewTypeConfiguration {
     }
 
     /**
+     * Set view which will be bounded to actual view type
+     * @param viewInitializer view initialization lambda function.
+     * Initialize your view with [Context] from this lambda.
+     */
+    @ConfigurationDsl
+    fun withLayoutView(viewInitializer: Context.() -> View) {
+        this.viewInitializer = viewInitializer
+    }
+
+    /**
      * Set action which must been called when [ecyclerView.Adapter.onBindViewHolder]
      * @param block is executed in [RecyclerView.ViewHolder.itemView] context
      * @param block.item item from adapter list at adapter position, equivalent of itemsList.get(adapterPosition]
@@ -123,4 +137,17 @@ class AdapterViewTypeConfiguration {
     }
 
     internal fun getInternalItems() = internalItems
+
+    internal fun validate() {
+        when {
+            layoutResId == -1 && viewInitializer == null && internalItems.isNotEmpty() -> throw UndefinedLayout(
+                "Adapter layout is not set, " +
+                        "please declare it with withLayoutResId() or withLayoutView() function"
+            )
+            viewInitializer != null && layoutResId != -1 -> throw UndefinedLayout(
+                "The layout is defined through both functions (withLayoutResId and withLayoutView)" +
+                        "can`t decide which layout to pick"
+            )
+        }
+    }
 }

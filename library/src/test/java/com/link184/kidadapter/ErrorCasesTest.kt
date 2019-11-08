@@ -1,6 +1,7 @@
 package com.link184.kidadapter
 
 /* ktlint-disable no-wildcard-imports */
+import android.widget.TextView
 import com.link184.kidadapter.exceptions.*
 /* ktlint-enable no-wildcard-imports */
 import org.junit.Before
@@ -38,6 +39,29 @@ class ErrorCasesTest {
                     withItems(mutableListOf("one", "two", "three"))
                     bind<String> {
                     }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun t2_withLayoutResAndViewDefined() {
+        assertFailsWith<UndefinedLayout> {
+            activityController.get().recyclerView.setUp<String> {
+                withItems(mutableListOf("One", "Two"))
+                withLayoutResId(android.R.layout.list_content)
+                withLayoutView(::TextView)
+                bind { }
+            }
+        }
+
+        assertFailsWith<UndefinedLayout> {
+            activityController.get().recyclerView.setUp {
+                withViewType {
+                    withItems(mutableListOf("one", "two"))
+                    withLayoutResId(android.R.layout.list_content)
+                    withLayoutView(::TextView)
+                    bind<String> { }
                 }
             }
         }
