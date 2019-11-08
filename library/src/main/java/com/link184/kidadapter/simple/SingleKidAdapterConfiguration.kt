@@ -14,6 +14,8 @@ class SingleKidAdapterConfiguration<T> {
         private set
     internal var layoutManager: RecyclerView.LayoutManager? = null
         private set
+    internal var decorator: RecyclerView.ItemDecoration? = null
+        private set
     @LayoutRes
     internal var layoutResId: Int = -1
         private set
@@ -51,6 +53,23 @@ class SingleKidAdapterConfiguration<T> {
     @ConfigurationDsl
     fun withLayoutManager(layoutManager: RecyclerView.LayoutManager) {
         this.layoutManager = layoutManager
+    }
+
+    /**
+     * Set [RecyclerView.ItemDecoration] of a current [RecyclerView]
+     */
+    @ConfigurationDsl
+    fun withItemDecorator(decorator: RecyclerView.ItemDecoration) {
+        this.decorator = decorator
+    }
+
+    /**
+     * Set [RecyclerView.ItemDecoration] of a current [RecyclerView]
+     * @param block configure your decorator here.
+     */
+    @ConfigurationDsl
+    fun withItemDecorator(block: () -> RecyclerView.ItemDecoration) {
+        this.decorator = block()
     }
 
     /**

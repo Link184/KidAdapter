@@ -24,7 +24,8 @@ open class TypedKidAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Any> {
         val adapterViewType = typedKidAdapterConfiguration.viewTypes.first { it.viewType == viewType }
-        val view = LayoutInflater.from(parent.context).inflate(adapterViewType.configuration.layoutResId, parent, false)
+        val view = adapterViewType.configuration.viewInitializer?.invoke(parent.context)
+            ?: LayoutInflater.from(parent.context).inflate(adapterViewType.configuration.layoutResId, parent, false)
         val viewHolder = object : BaseViewHolder<Any>(view) {
             override fun bindView(item: Any) {
                 adapterViewType.configuration.bindHolderIndexed(itemView, item, adapterPosition)

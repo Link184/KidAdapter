@@ -21,6 +21,9 @@ fun <T> RecyclerView.setUp(block: SingleKidAdapterConfiguration<T>.() -> Unit): 
         if (layoutManager == null) {
             layoutManager = configuration.layoutManager ?: LinearLayoutManager(context)
         }
+        configuration.decorator?.let {
+            addItemDecoration(it)
+        }
         adapter = this
     }
 }
@@ -36,6 +39,9 @@ fun RecyclerView.setUp(block: TypedKidAdapterConfiguration.() -> Unit): TypedKid
     return TypedKidAdapter(adapterDsl).apply {
         if (layoutManager == null) {
             layoutManager = adapterDsl.layoutManager ?: LinearLayoutManager(context)
+        }
+        adapterDsl.decorator?.let {
+            addItemDecoration(it)
         }
         adapter = this
     }

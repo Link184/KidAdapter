@@ -12,6 +12,7 @@ import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 class TypedKidAdapterConfiguration {
     internal val viewTypes = mutableListOf<AdapterViewType<Any>>()
     internal var layoutManager: RecyclerView.LayoutManager? = null
+    internal var decorator: RecyclerView.ItemDecoration? = null
 
     /**
      * Declare adapter view type.
@@ -43,6 +44,23 @@ class TypedKidAdapterConfiguration {
     @ConfigurationDsl
     fun withLayoutManager(block: () -> RecyclerView.LayoutManager?) {
         layoutManager = block()
+    }
+
+    /**
+     * Set [RecyclerView.ItemDecoration] of a current [RecyclerView]
+     */
+    @ConfigurationDsl
+    fun withItemDecorator(decorator: RecyclerView.ItemDecoration) {
+        this.decorator = decorator
+    }
+
+    /**
+     * Set [RecyclerView.ItemDecoration] of a current [RecyclerView]
+     * @param block configure your decorator here.
+     */
+    @ConfigurationDsl
+    fun withItemDecorator(block: () -> RecyclerView.ItemDecoration) {
+        this.decorator = block()
     }
 
     /**
