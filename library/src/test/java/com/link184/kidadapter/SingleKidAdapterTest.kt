@@ -1,5 +1,6 @@
 package com.link184.kidadapter
 
+import android.os.Build
 import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -12,11 +13,13 @@ import org.mockito.internal.verification.VerificationModeFactory.times
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.P])
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class SingleKidAdapterTest {
     lateinit var activityController: ActivityController<RecyclerViewActivity>

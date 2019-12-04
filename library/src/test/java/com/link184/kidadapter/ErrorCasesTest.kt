@@ -1,6 +1,7 @@
 package com.link184.kidadapter
 
 /* ktlint-disable no-wildcard-imports */
+import android.os.Build
 import android.widget.TextView
 import com.link184.kidadapter.exceptions.*
 /* ktlint-enable no-wildcard-imports */
@@ -12,9 +13,11 @@ import org.junit.runners.MethodSorters
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
+import org.robolectric.annotation.Config
 import kotlin.test.assertFailsWith
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.P])
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ErrorCasesTest {
     lateinit var activityController: ActivityController<RecyclerViewActivity>

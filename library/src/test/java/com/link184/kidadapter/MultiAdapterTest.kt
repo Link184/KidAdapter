@@ -1,5 +1,6 @@
 package com.link184.kidadapter
 
+import android.os.Build
 import com.link184.kidadapter.typed.TypedKidAdapter
 import com.link184.kidadapter.typed.TypedKidAdapterConfiguration
 import org.junit.Before
@@ -14,11 +15,13 @@ import org.mockito.internal.verification.VerificationModeFactory
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.P])
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class MultiAdapterTest {
     private lateinit var activityController: ActivityController<RecyclerViewActivity>

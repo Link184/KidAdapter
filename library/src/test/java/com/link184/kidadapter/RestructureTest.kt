@@ -1,6 +1,7 @@
 package com.link184.kidadapter
 
 import android.R
+import android.os.Build
 import com.link184.kidadapter.exceptions.UndeclaredTag
 import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.typed.AdapterViewTypeConfiguration
@@ -13,12 +14,14 @@ import org.junit.runners.MethodSorters
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.P])
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class RestructureTest {
     private lateinit var activityController: ActivityController<RecyclerViewActivity>
