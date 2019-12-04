@@ -38,8 +38,7 @@ open class SingleKidAdapter<T>(private val configuration: SingleKidAdapterConfig
 
     override operator fun plusAssign(itemList: MutableList<T>) {
         if (itemList != this.itemList) {
-            this.itemList.reset(itemList)
-            notifyDataSetChanged()
+            this.itemList.reset(itemList).also(::dispatchUpdates)
         }
     }
 
