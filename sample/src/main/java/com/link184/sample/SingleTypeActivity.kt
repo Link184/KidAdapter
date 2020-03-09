@@ -39,6 +39,4 @@ class SingleTypeActivity : AppCompatActivity() {
         val rnd = Random(System.nanoTime())
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
     }
-
-
 }
