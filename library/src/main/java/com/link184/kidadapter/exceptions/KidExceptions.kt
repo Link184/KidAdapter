@@ -11,13 +11,6 @@ open class KidException(message: String, cause: Throwable? = null) : Throwable(m
 open class UndefinedLayout(message: String) : KidException(message)
 
 /**
- * Is thrown when no items are defined in adapter
- */
-open class ZeroViewTypes : KidException(
-    "View types are not defined, at least one must been defined. Use withViewType() method"
-)
-
-/**
  * Is thrown when you try to update a undeclared view type. For example when you try to insert a string in a int list.
  */
 open class UndeclaredTypeModification(modelType: Class<*>?) : KidException(

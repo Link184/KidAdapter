@@ -3,7 +3,6 @@ package com.link184.kidadapter.typed
 import androidx.recyclerview.widget.RecyclerView
 import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.exceptions.UndeclaredTag
-import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.simple.SingleKidAdapterConfiguration
 
 /**
@@ -86,13 +85,9 @@ class TypedKidAdapterConfiguration {
     }
 
     internal fun getAllItems(): MutableList<Any> {
-        val alignedItems = viewTypes
+        return viewTypes
             .map { it.configuration.getInternalItems().toMutableList() }
-        if (alignedItems.isNotEmpty()) {
-            return alignedItems
-                .reduce { acc, items -> acc.apply { addAll(items) } }
-        }
-        throw ZeroViewTypes()
+            .fold(ArrayList()) { acc, items -> acc.apply { addAll(items) } }
     }
 
     /**

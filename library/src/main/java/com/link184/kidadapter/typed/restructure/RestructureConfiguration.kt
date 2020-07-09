@@ -2,7 +2,6 @@ package com.link184.kidadapter.typed.restructure
 
 import com.link184.kidadapter.ConfigurationDsl
 import com.link184.kidadapter.exceptions.UndeclaredTag
-import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.typed.AdapterViewType
 import com.link184.kidadapter.typed.AdapterViewTypeConfiguration
 import com.link184.kidadapter.typed.TypedKidAdapterConfiguration
@@ -72,10 +71,7 @@ class RestructureConfiguration {
     }
 
     /**
-     * Removes all declared [AdapterViewType]. Use only in combination with other operators, do not leave adapter empty,
-     * otherwise [ZeroViewTypes] can be thrown. todo: review ZeroViewTypes exception, maybe is useless
-     *
-     * @throws ZeroViewTypes when adapter holds zero view types
+     * Removes all declared [AdapterViewType]
      */
     @ConfigurationDsl
     fun removeAll() {

@@ -3,7 +3,6 @@ package com.link184.kidadapter
 import android.R
 import android.os.Build
 import com.link184.kidadapter.exceptions.UndeclaredTag
-import com.link184.kidadapter.exceptions.ZeroViewTypes
 import com.link184.kidadapter.typed.AdapterViewTypeConfiguration
 import com.link184.kidadapter.typed.TypedKidAdapter
 import org.junit.Before
@@ -204,11 +203,10 @@ class RestructureTest {
 
     @Test
     fun t06_removeAllViewType() {
-        assertFailsWith<ZeroViewTypes> {
-            adapter.restructure {
-                removeAll()
-            }
+        adapter.restructure {
+            removeAll()
         }
+        assertEquals(0, adapter.itemCount)
     }
 
     @Test

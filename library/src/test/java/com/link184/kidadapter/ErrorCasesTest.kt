@@ -1,10 +1,13 @@
 package com.link184.kidadapter
 
 /* ktlint-disable no-wildcard-imports */
+/* ktlint-enable no-wildcard-imports */
 import android.os.Build
 import android.widget.TextView
-import com.link184.kidadapter.exceptions.*
-/* ktlint-enable no-wildcard-imports */
+import com.link184.kidadapter.exceptions.UndeclaredTag
+import com.link184.kidadapter.exceptions.UndeclaredTypeModification
+import com.link184.kidadapter.exceptions.UndefinedLayout
+import com.link184.kidadapter.exceptions.WrongTagType
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
@@ -72,9 +75,7 @@ class ErrorCasesTest {
 
     @Test
     fun t2_zeroViewTypes() {
-        assertFailsWith<ZeroViewTypes> {
-            activityController.get().recyclerView.setUp { }
-        }
+        activityController.get().recyclerView.setUp { }
     }
 
     @Test
