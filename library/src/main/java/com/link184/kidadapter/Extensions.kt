@@ -17,7 +17,7 @@ import com.link184.kidadapter.typed.TypedKidAdapterConfiguration
  */
 fun <T> RecyclerView.setUp(block: SingleKidAdapterConfiguration<T>.() -> Unit): SingleKidAdapter<T> {
     val configuration = SingleKidAdapterConfiguration<T>().apply(block)
-    return SingleKidAdapter(configuration).apply {
+    return SingleKidAdapter.create(block).apply {
         if (layoutManager == null) {
             layoutManager = configuration.layoutManager ?: LinearLayoutManager(context)
         }
@@ -36,7 +36,7 @@ fun <T> RecyclerView.setUp(block: SingleKidAdapterConfiguration<T>.() -> Unit): 
  */
 fun RecyclerView.setUp(block: TypedKidAdapterConfiguration.() -> Unit): TypedKidAdapter {
     val adapterDsl = TypedKidAdapterConfiguration().apply(block)
-    return TypedKidAdapter(adapterDsl).apply {
+    return TypedKidAdapter.create(block).apply {
         if (layoutManager == null) {
             layoutManager = adapterDsl.layoutManager ?: LinearLayoutManager(context)
         }

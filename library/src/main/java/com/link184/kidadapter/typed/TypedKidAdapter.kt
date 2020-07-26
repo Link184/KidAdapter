@@ -83,4 +83,16 @@ open class TypedKidAdapter(
         }
         return (typedKidAdapterConfiguration.getItemsByType<Any>() as List<T>).toMutableList()
     }
+
+    companion object Factory {
+        /**
+         * Just create an instance of [TypedKidAdapter] without to attach it [RecyclerView]
+         * @param block hare adapter can be configured
+         * @return a child instance of a [RecyclerView.Adapter]
+         */
+        fun create(block: TypedKidAdapterConfiguration.() -> Unit): TypedKidAdapter {
+            val adapterDsl = TypedKidAdapterConfiguration().apply(block)
+            return TypedKidAdapter(adapterDsl)
+        }
+    }
 }

@@ -103,4 +103,17 @@ open class SingleKidAdapter<T>(private val configuration: SingleKidAdapterConfig
             DiffUtil.calculateDiff(this).dispatchUpdatesTo(this@SingleKidAdapter)
         }
     }
+
+    companion object Factory {
+
+        /**
+         * Just create an instance of [SingleKidAdapter] without to attach it [RecyclerView]
+         * @param block hare adapter can be configured
+         * @return a child instance of a [RecyclerView.Adapter]
+         */
+        fun <T> create(block: SingleKidAdapterConfiguration<T>.() -> Unit): SingleKidAdapter<T> {
+            val configuration = SingleKidAdapterConfiguration<T>().apply(block)
+            return SingleKidAdapter(configuration)
+        }
+    }
 }

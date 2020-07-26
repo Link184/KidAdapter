@@ -31,6 +31,6 @@ open class UndeclaredTag(tag: String) : KidException(
  * Is thrown when you try to update items with different items type.
  */
 open class WrongTagType(tag: String) : KidException(
-    "Sorry but $tag is set with different items tyoe or another with " +
+    "Sorry but $tag is set with different items type or another with " +
             "view type."
 )
