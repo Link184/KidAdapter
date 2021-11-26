@@ -12,7 +12,7 @@ view types. You can easily maintain, update, move, swap, remove or add new view 
 Bonus: Almost all logic by default works with `DiffUtil`
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.link184/kid-adapter)
-[![Build Status](https://travis-ci.com/Link184/KidAdapter.svg?branch=master)](https://travis-ci.com/Link184/KidAdapter)
+[![CircleCI](https://circleci.com/gh/Link184/KidAdapter/tree/master.svg?style=svg)](https://circleci.com/gh/Link184/KidAdapter/tree/master)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-KidAdapter-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7397)
 
@@ -24,7 +24,7 @@ Gradle:
 
 ```gradle
 // only for androidx projects
-implementation 'com.link184:kid-adapter:1.3.7'
+implementation 'com.link184:kid-adapter:1.3.8'
 
 // for projects with android.support.*
 implementation 'com.link184:kid-adapter:1.2.2'
