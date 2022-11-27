@@ -7,7 +7,6 @@ sealed class RestructureType {
         object InsertBottom : Insert(-1)
     }
 
-    object ReplaceAll : RestructureType()
     class ReplaceByIndex(internal val index: Int) : RestructureType()
     class ReplaceByTag(internal val tag: String) : RestructureType()
 

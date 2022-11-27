@@ -18,6 +18,7 @@ android {
             includeAndroidResources = true
         }
     }
+    namespace 'com.link184.kidadapter'
 }
 
 configurations {
@@ -44,7 +45,6 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'androidx.recyclerview:recyclerview:1.2.1'
     api 'androidx.viewpager2:viewpager2:1.0.0'
 
@@ -52,8 +52,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.3.1'
-    testImplementation "org.jetbrains.kotlin:kotlin-test:1.6.0"
-    testImplementation 'org.mockito:mockito-core:3.9.0'
+    testImplementation "org.jetbrains.kotlin:kotlin-test:1.7.10"
+    testImplementation 'org.mockito:mockito-core:4.0.0'
 
-    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.5.1'
 }
