@@ -20,7 +20,7 @@ import org.robolectric.annotation.Config
 import kotlin.test.assertFailsWith
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.P])
+@Config(sdk = [Build.VERSION_CODES.UPSIDE_DOWN_CAKE])
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ErrorCasesTest {
     lateinit var activityController: ActivityController<RecyclerViewActivity>

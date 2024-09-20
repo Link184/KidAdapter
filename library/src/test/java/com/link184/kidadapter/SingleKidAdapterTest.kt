@@ -19,7 +19,7 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.P])
+@Config(sdk = [Build.VERSION_CODES.UPSIDE_DOWN_CAKE])
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class SingleKidAdapterTest {
     lateinit var activityController: ActivityController<RecyclerViewActivity>

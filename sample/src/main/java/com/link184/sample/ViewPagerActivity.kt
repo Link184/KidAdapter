@@ -1,20 +1,20 @@
 package com.link184.sample
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.link184.kidadapter.setUp
-import kotlinx.android.synthetic.main.activity_view_pager.*
-import kotlinx.android.synthetic.main.view_tab.view.*
 
 class ViewPagerActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_pager)
 
-        viewPager.setUp<String> {
+        findViewById<ViewPager2>(R.id.viewPager).setUp<String> {
             withItems(mutableListOf("one", "two", "three"))
             withLayoutResId(R.layout.view_tab)
-            bind { name.text = it }
+            bind { findViewById<TextView>(R.id.name).text = it }
         }
     }
 }
